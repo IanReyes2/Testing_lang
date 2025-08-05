@@ -8,7 +8,7 @@ export default function MenuPage() {
     { title: 'Shooting Stars', price: '₱99', image: '/assets/img/SWASTIKA.png' },
     { title: 'Neptune', price: '₱79', image: '/assets/img/SWASTIKA.png' },
     { title: 'The 400 Blows', price: '₱109', image: '/assets/img/SWASTIKA.png' },
-    { title: 'The Catalyzer', price: '₱89', image: '/assets/img/SWASTIKA.png' },
+      { title: 'The Catalyzer', price: '₱89', image: '/assets/img/SWASTIKA.png' },
     { title: 'Shooting Stars', price: '₱99', image: '/assets/img/SWASTIKA.png' },
     { title: 'Neptune', price: '₱79', image: '/assets/img/SWASTIKA.png' },
     { title: 'The 400 Blows', price: '₱109', image: '/assets/img/SWASTIKA.png' },
