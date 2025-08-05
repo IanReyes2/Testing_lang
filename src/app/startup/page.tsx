@@ -45,7 +45,7 @@ export default function StartupPage() {
               textShadow: '2px 2px 6px #000',
             }}
           >
-            THE FRANCISCanteen 
+            THE FRANCISCanteen
           </h1>
 
           <h2 className="lead text-white mb-4">Your Everyday Food Pal.</h2>
