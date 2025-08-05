@@ -11,7 +11,7 @@ export default function CartPage() {
           className="fw-bold px-4 py-2 border-0 rounded"
           style={{
             backgroundColor: '#670E10', 
-            color: '#000',
+            color: '#fff',
           }}
         >
           Proceed to Checkout
