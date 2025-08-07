@@ -9,13 +9,13 @@ export default function CartPage() {
    const products = [
   {
     id: 1,
-    name: 'Throwback Hip Bag',
+    name: 'Sonderkrafthazheug sdkfz.100',
     href: '#',
     color: 'Salmon',
-    price: '$90.00',
+    price: '90 Reichsmarks',
     quantity: 1,
-    imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
-    imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
+    imageSrc: 'assets/img/SWASTIKA.png',
+    imageAlt: 'The juicer?',
   },
   {
     id: 2,
@@ -123,12 +123,10 @@ export default function CartPage() {
                     </div>
                     <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                     <div className="mt-6">
-                      <a
-                        href="#"
-                        className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700"
-                      >
-                        Checkout
-                      </a>
+                      <Link href="/checkout"
+                        className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700">
+                          checkout mo na HAHAHAHA
+                      </Link>
                     </div>
                     <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                       <p>
@@ -151,17 +149,6 @@ export default function CartPage() {
         </div>
       </Dialog>
     </div>
-      <Link href="/checkout">
-        <button
-          className="fw-bold px-4 py-2 border-0 rounded"
-          style={{
-            backgroundColor: '#670E10', 
-            color: '#fff',
-          }}
-        >
-          Proceed to Checkout
-        </button>
-      </Link>
     </div>
   );
 }
