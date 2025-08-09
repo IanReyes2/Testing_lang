@@ -1,7 +1,8 @@
 import './globals.css';
+import { CartProvider } from './CartContext';
 
 export const metadata = {
-  title: 'Delicious Startup Page',
+  title: 'The FrancisCanteen :)',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -17,9 +18,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href="/assets/css/main.css" />
       </head>
       <body>
-        {children}
-                                                                                                
-        {/* Template JS Files */} 
+        <CartProvider>
+          {children}
+        </CartProvider>
+
+        {/* Template JS Files */}
         <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/assets/vendor/php-email-form/validate.js"></script>
         <script src="/assets/vendor/aos/aos.js"></script>
@@ -32,4 +35,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-
