@@ -1,16 +1,15 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function StartupPage() {
   return (
     <div>
-
       {/* Header */}
       <header
         id="header"
         className="header fixed-top"
-        style={{ backgroundColor: '#670E10', color: '#fff' }}
+        style={{ backgroundColor: "#670E10", color: "#fff" }}
       >
         <div className="container d-flex justify-content-between align-items-center py-2">
           <img
@@ -20,7 +19,9 @@ export default function StartupPage() {
           />
           <nav id="navmenu" className="navmenu">
             <ul className="d-flex gap-4 m-0 list-unstyled">
-              <li><a href="#history">History</a></li>
+              <li>
+                <a href="#history">History</a>
+              </li>
             </ul>
           </nav>
         </div>
@@ -32,17 +33,17 @@ export default function StartupPage() {
         style={{
           background:
             "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/assets/img/SWASTIKA.png') center/cover no-repeat",
-          minHeight: '100vh',
-          paddingTop: '100px',
-          paddingBottom: '80px',
+          minHeight: "100vh",
+          paddingTop: "100px",
+          paddingBottom: "80px",
         }}
       >
         <div className="container">
           <h1
             className="display-4 fw-bold mb-3"
             style={{
-              color: '#ffffff',
-              textShadow: '2px 2px 6px #000',
+              color: "#ffffff",
+              textShadow: "2px 2px 6px #000",
             }}
           >
             THE FRANCISCanteen
@@ -55,10 +56,10 @@ export default function StartupPage() {
             <button
               className="fw-bold px-5 py-2"
               style={{
-                backgroundColor: '#670E10',
-                color: '#ffffff',
-                border: 'none',
-                fontSize: '1.1rem',
+                backgroundColor: "#670E10",
+                color: "#ffffff",
+                border: "none",
+                fontSize: "1.1rem",
               }}
             >
               Start Ordering
@@ -72,11 +73,11 @@ export default function StartupPage() {
         id="footer"
         className="footer text-white py-3"
         style={{
-          backgroundColor: '#670E10',
-          position: 'fixed',
+          backgroundColor: "#670E10",
+          position: "fixed",
           bottom: 0,
           left: 0,
-          width: '100%',
+          width: "100%",
           zIndex: 10,
         }}
       >

@@ -1,6 +1,6 @@
-'use client';
-import { useCart } from '../CartContext';
-import Link from 'next/link';
+"use client";
+import { useCart } from "../CartContext";
+import Link from "next/link";
 
 export default function CartPage() {
   const { cartItems, updateQuantity, removeFromCart } = useCart();
@@ -14,8 +14,8 @@ export default function CartPage() {
             <button
               className="fw-bold px-4 py-2 border-0 rounded"
               style={{
-                backgroundColor: '#670E10',
-                color: '#fff',
+                backgroundColor: "#670E10",
+                color: "#fff",
               }}
             >
               Go Back to Menu
@@ -40,11 +40,15 @@ export default function CartPage() {
 
             {/* add or minus items to */}
             <div className="flex items-center gap-2">
-              <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>
+              <button
+                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+              >
                 -
               </button>
               <span>{item.quantity}</span>
-              <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+              <button
+                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+              >
                 +
               </button>
             </div>
@@ -56,7 +60,7 @@ export default function CartPage() {
             <button
               onClick={() => removeFromCart(item.id)}
               className="ml-4 px-3 py-1 text-white rounded"
-              style={{ backgroundColor: '#670E10' }}
+              style={{ backgroundColor: "#670E10" }}
             >
               Remove
             </button>
@@ -68,7 +72,7 @@ export default function CartPage() {
       <header
         id="header"
         className="header fixed-top"
-        style={{ backgroundColor: '#670E10', color: '#fff' }}
+        style={{ backgroundColor: "#670E10", color: "#fff" }}
       >
         <div className="container d-flex justify-content-between align-items-center py-2">
           <img
@@ -78,7 +82,9 @@ export default function CartPage() {
           />
           <nav id="navmenu" className="navmenu">
             <ul className="d-flex gap-4 m-0 list-unstyled">
-              <li><a href="#history">History</a></li>
+              <li>
+                <a href="#history">History</a>
+              </li>
             </ul>
           </nav>
         </div>
@@ -91,8 +97,8 @@ export default function CartPage() {
             <button
               className="fw-bold px-4 py-2 border-0 rounded"
               style={{
-                backgroundColor: '#670E10',
-                color: '#fff',
+                backgroundColor: "#670E10",
+                color: "#fff",
               }}
             >
               CHECK MO NA HAHAHAHAHAAHAHA
