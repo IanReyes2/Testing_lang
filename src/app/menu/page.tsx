@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useCart } from "../CartContext";
 import { useState } from "react";
 
+
 export default function MenuPage() {
   const { addToCart } = useCart();
   const [clickedButtons, setClickedButtons] = useState<{
@@ -50,7 +51,7 @@ export default function MenuPage() {
     },
   ];
 
-  const handleAddToCart = (item: any) => {
+  const handleAddToCart = (item: string) => {
     addToCart({ ...item, quantity: 1 });
     setClickedButtons((prev) => ({ ...prev, [item.id]: true }));
 

@@ -1,11 +1,13 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useCart } from "../CartContext";
 
 export default function CheckoutPage() {
   const router = useRouter();
-
-  const handleCheckout = () => {
-    // process checkout logic here
+  const { cartItems, clearCart } = useCart();
+  const handleFinishOrder = () => {
+    console.log("Finish order clicked"); // check if button works
+    clearCart();
     router.push("/");
   };
 
@@ -16,7 +18,7 @@ export default function CheckoutPage() {
         className="text-gray-600 body-font"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/assets/img/gallery/gallery-1.jpg')",
+            "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/assets/img/Crashout_malala.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -80,7 +82,7 @@ export default function CheckoutPage() {
           </div>
           <div className="fixed bottom-0 left-0 w-full flex justify-center pb-6">
             <button
-              onClick={handleCheckout}
+              onClick={handleFinishOrder}
               className="fw-bold px-4 py-2 border-0 rounded"
               style={{
                 backgroundColor: "#670E10",

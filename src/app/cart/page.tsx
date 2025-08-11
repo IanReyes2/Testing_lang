@@ -3,7 +3,8 @@ import { useCart } from "../CartContext";
 import Link from "next/link";
 
 export default function CartPage() {
-  const { cartItems, updateQuantity, removeFromCart } = useCart();
+const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
+
   return (
     <section className="p-8">
       <h2 className="text-2xl font-bold mb-6">Shopping Cart</h2>
