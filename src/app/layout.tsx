@@ -1,5 +1,6 @@
 import './globals.css';
 import { CartProvider } from './CartContext';
+import { HistoryProvider } from "../app/HistoryContext";
 
 export const metadata = {
   title: 'The FrancisCanteen :)',
@@ -19,7 +20,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <CartProvider>
+          <HistoryProvider>
           {children}
+          </HistoryProvider>
         </CartProvider>
 
         {/* Template JS Files */}

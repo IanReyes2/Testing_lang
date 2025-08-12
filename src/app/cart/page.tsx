@@ -3,11 +3,12 @@ import { useCart } from "../CartContext";
 import Link from "next/link";
 
 export default function CartPage() {
-const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
+  const { cartItems, updateQuantity, removeFromCart } = useCart();
 
   return (
     <section className="p-8">
       <h2 className="text-2xl font-bold mb-6">Shopping Cart</h2>
+
       {cartItems.length === 0 ? (
         <div className="flex flex-col items-center justify-center min-h-screen">
           <p className="mb-4 text-lg">Your cart is empty</p>
@@ -29,7 +30,7 @@ const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
             key={item.id}
             className="border p-4 mb-4 flex items-center justify-between"
           >
-            {/* yung itsura ng item */}
+            {/* Item display */}
             <div className="flex items-center gap-4">
               <img
                 src={item.image}
@@ -39,7 +40,7 @@ const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
               <span>{item.name}</span>
             </div>
 
-            {/* add or minus items to */}
+            {/* Quantity controls */}
             <div className="flex items-center gap-2">
               <button
                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -54,10 +55,10 @@ const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
               </button>
             </div>
 
-            {/* para makita kung magkano inorder mo */}
+            {/* Price */}
             <span>₱{item.price * item.quantity}</span>
 
-            {/* Remove item to */}
+            {/* Remove */}
             <button
               onClick={() => removeFromCart(item.id)}
               className="ml-4 px-3 py-1 text-white rounded"
@@ -69,7 +70,7 @@ const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
         ))
       )}
 
-      {/* yung kulay red sa tuktok*/}
+      {/* Header */}
       <header
         id="header"
         className="header fixed-top"
@@ -82,11 +83,11 @@ const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
             className="h-12 sm:h-16 md:h-20 lg:h-24 object-contain"
           />
           <nav id="navmenu" className="navmenu">
-            <ul className="d-flex gap-4 m-0 list-unstyled">
-              <li>
-                <a href="#history">History</a>
-              </li>
-            </ul>
+            <li>
+              <ul className="d-flex gap-4 m-0 list-unstyled">
+                <Link href="history">History</Link>
+              </ul>
+            </li>
           </nav>
         </div>
       </header>
@@ -102,7 +103,7 @@ const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
                 color: "#fff",
               }}
             >
-              CHECK MO NA HAHAHAHAHAAHAHA
+              GO TO CHECKOUT
             </button>
           </Link>
         </div>

@@ -104,12 +104,12 @@ export default function MenuPage() {
             alt="Logo"
             className="h-12 sm:h-16 md:h-20 lg:h-24 object-contain"
           />
-          <nav id="navmenu" className="navmenu">
-            <ul className="d-flex gap-4 m-0 list-unstyled">
-              <li>
-                <a href="#history">History</a>
-              </li>
-            </ul>
+           <nav id="navmenu" className="navmenu">
+            <li>
+              <ul className="d-flex gap-4 m-0 list-unstyled">
+                <Link href="history">History</Link>
+              </ul>
+            </li>
           </nav>
         </div>
       </header>
