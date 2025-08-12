@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useCart } from "../CartContext";
 import { useState } from "react";
 
-
 export default function MenuPage() {
   const { addToCart } = useCart();
   const [clickedButtons, setClickedButtons] = useState<{
@@ -15,39 +14,39 @@ export default function MenuPage() {
       id: 1,
       name: "The Catalyzer",
       price: 89,
-      image: "/assets/img/SWASTIKA.png",
+      image: "/assets/img/Cutie.png",
     },
     {
       id: 2,
       name: "Shooting Stars",
       price: 99,
-      image: "/assets/img/SWASTIKA.png",
+      image: "/assets/img/Cutie.png",
     },
-    { id: 3, name: "Neptune", price: 79, image: "/assets/img/SWASTIKA.png" },
+    { id: 3, name: "Neptune", price: 79, image: "/assets/img/Cutie.png" },
     {
       id: 4,
       name: "The 400 Blows",
       price: 109,
-      image: "/assets/img/SWASTIKA.png",
+      image: "/assets/img/Cutie.png",
     },
     {
       id: 5,
       name: "The Catalyzer",
       price: 89,
-      image: "/assets/img/SWASTIKA.png",
+      image: "/assets/img/Cutie.png",
     },
     {
       id: 6,
       name: "Shooting Stars",
       price: 99,
-      image: "/assets/img/SWASTIKA.png",
+      image: "/assets/img/Cutie.png",
     },
-    { id: 7, name: "Neptune", price: 79, image: "/assets/img/SWASTIKA.png" },
+    { id: 7, name: "Neptune", price: 79, image: "/assets/img/Cutie.png" },
     {
       id: 8,
       name: "The 400 Blows",
       price: 109,
-      image: "/assets/img/SWASTIKA.png",
+      image: "/assets/img/Cutie.png",
     },
   ];
 

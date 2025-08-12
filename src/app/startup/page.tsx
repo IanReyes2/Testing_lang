@@ -32,7 +32,7 @@ export default function StartupPage() {
         className="d-flex align-items-center justify-content-center text-center text-white"
         style={{
           background:
-            "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/assets/img/SWASTIKA.png') center/cover no-repeat",
+            "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/assets/img/paper-texture.jpg') center/cover no-repeat",
           minHeight: "100vh",
           paddingTop: "100px",
           paddingBottom: "80px",
