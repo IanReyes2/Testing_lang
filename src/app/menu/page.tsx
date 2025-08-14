@@ -55,6 +55,29 @@ export default function MenuPage() {
       price: 25,
       image: "/assets/img/bihon.jpg",
     },
+     {
+      id: 9,
+      name: "Adobong sitaw",
+      price: 25,
+      image: "/assets/img/egg.jpg",
+    },
+    {
+      id: 10,
+      name: "who toucha my spaghet",
+      price: 25,
+      image: "/assets/img/Spaghetti.jpg",
+    },
+    { id: 11, 
+      name: "Carbonara", 
+      price: 25, 
+      image: "/assets/img/carbonara.jpg" },
+    
+    {
+      id: 12,
+      name: "Eyyy Bihon HAHAHAHA",
+      price: 25,
+      image: "/assets/img/bihon.jpg",
+    },
   ];
 
   const handleAddToCart = (item: string) => {
@@ -106,11 +129,13 @@ export default function MenuPage() {
         style={{ backgroundColor: "#670E10", color: "#fff" }}
       >
         <div className="container d-flex justify-content-between align-items-center py-2">
+          <Link href="/startup">
           <img
             src="/assets/img/SFAC_LOGO_Edited.png"
             alt="Logo"
             className="h-12 sm:h-16 md:h-20 lg:h-24 object-contain"
           />
+          </Link>
            <nav id="navmenu" className="navmenu">
             <li>
               <ul className="d-flex gap-4 m-0 list-unstyled">

@@ -1,12 +1,12 @@
 // src/app/menu/page.tsx
 "use client";
 import img from "next/image";
-import { useRouter } from "next/navigation";
-import { useHistoryContext } from "../HistoryContext"; 
+import { useParams, useRouter } from "next/navigation";
+import { useHistoryContext } from "../HistoryContext";
 
 export default function Page() {
   const router = useRouter();
-  const { history } = useHistoryContext(); 
+  const { history } = useHistoryContext();
 
   return (
     <section className="py-24 bg-white">
@@ -21,7 +21,7 @@ export default function Page() {
             history.map((order) => (
               <div
                 key={order.id}
-                className="box p-8 rounded-3xl bg-gray-100 grid grid-cols-8 mb-7 cursor-pointer transition-all duration-500 hover:bg-indigo-50 max-lg:max-w-xl max-lg:mx-auto"
+                className="box p-8 rounded-3xl bg-gray-100 grid grid-cols-8 mb-7 transition-all duration-500 hover:bg-indigo-50 max-lg:max-w-xl max-lg:mx-auto"
               >
                 {/* to display image ng product */}
                 <div className="col-span-8 sm:col-span-4 lg:col-span-1 sm:row-span-4 lg:row-span-1">
@@ -40,10 +40,23 @@ export default function Page() {
                   <p className="font-normal text-base leading-7 text-gray-600 max-md:text-center">
                     {order.items[0]?.description || ""}
                   </p>
-                  {/* to dislpay yung order code */}
                   <p className="font-semibold text-sm leading-5 text-gray-500 mt-2">
                     Code: {order.code}
                   </p>
+
+                  {/* Dropdown for more details */}
+                  <details className="dropdown mt-3">
+                    <summary className="btn btn-sm m-1">More Details</summary>
+                    <ul className="menu dropdown-content bg-base-100 rounded-box z-10 w-52 p-2 shadow-sm">
+                      {order.items.map((item, index) => (
+                        <li key={index}>
+                          <a>
+                            {item.name} — ₱{item.price} x {item.quantity}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
                 </div>
 
                 {/* to display yung price */}
