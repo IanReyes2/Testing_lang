@@ -35,7 +35,7 @@ export default function CheckoutPage() {
 
   clearCart(); //after mag finish yung transaction it will clear the cart
 
-  // 2 second timer for code generation
+  // 5 second timer for code generation
   setTimeout(() => {
     router.push("/");
   }, 5000);
