@@ -9,6 +9,7 @@ export default function CheckoutPage() {
   const { cartItems, clearCart } = useCart();
   const { addOrderToHistory } = useHistoryContext();
   const [orderCode, setOrderCode] = useState("");
+    const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   // ito yung code generator
   const genCode = () => {
@@ -23,24 +24,24 @@ export default function CheckoutPage() {
   };
 
   const handleFinishOrder = () => {
-  const code = genCode();
-  setOrderCode(code);
+    setIsPlacingOrder(true);
+    const code = genCode();
+    setOrderCode(code);
 
-  addOrderToHistory({
-    id: Date.now(),
-    code,
-    items: cartItems,
-    date: new Date().toLocaleString(),
-  });
+    addOrderToHistory({
+      id: Date.now(),
+      code,
+      items: cartItems,
+      date: new Date().toLocaleString(),
+    });
 
-  clearCart(); //after mag finish yung transaction it will clear the cart
+    clearCart(); //after mag finish yung transaction it will clear the cart
 
-  // 5 second timer for code generation
-  setTimeout(() => {
-    router.push("/");
-  }, 5000);
-};
-
+    // 5 second timer for code generation
+    setTimeout(() => {
+      router.push("/");
+    }, 5000);
+  };
 
   return (
     <section>
@@ -53,25 +54,27 @@ export default function CheckoutPage() {
               </h1>
               <form action="" className="mt-10 flex flex-col space-y-4">
                 <div className="p-2 rounded-md text-gray-700 pointer-events-none">
-                 A Transaction code will be generated for 5 seconds after placing your order.
+                  A Transaction code will be generated for 5 seconds after
+                  placing your order.
                 </div>
                 <div className="bg-gray-100 border border-gray-300 p-2 rounded-md text-gray-700 pointer-events-none">
-                  {orderCode ||
-                    "Code appears here."}
+                  {orderCode || "Code appears here."}
                 </div>
               </form>
-              <button
-                type="submit"
-                className="mt-4 inline-flex w-full items-center justify-center rounded py-2.5 px-4 text-base font-semibold tracking-wide text-white text-opacity-80 outline-none ring-offset-2 transition hover:text-opacity-100 focus:ring-2 focus:ring-teal-500 sm:text-lg"
+                    <button
+                type="button"
+                disabled={isPlacingOrder} // disable after click
+                className={`mt-4 inline-flex w-full items-center justify-center rounded py-2.5 px-4 text-base font-semibold tracking-wide outline-none ring-offset-2 transition sm:text-lg ${
+                  isPlacingOrder
+                    ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                    : "hover:text-opacity-100 focus:ring-2 focus:ring-teal-500"
+                }`}
                 onClick={handleFinishOrder}
-                style={{
-                  backgroundColor: "#670E10",
-                  color: "#fff",
-                }}
+                style={!isPlacingOrder ? { backgroundColor: "#670E10", color: "#fff" } : {}}
               >
-                Place Order
+                {isPlacingOrder ? "Processing..." : "Place Order"}
               </button>
-            </div> 
+            </div>
           </div>
           <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
             <div>
@@ -82,38 +85,44 @@ export default function CheckoutPage() {
                 {cartItems.length === 0 ? (
                   <p className="text-white">Your cart is empty</p>
                 ) : (
-                 cartItems.map((item) => (
-                   <li key={item.id} className="flex justify-between">
-                     <div className="inline-flex">
-                       <img
-                         src={item.image}
+                  cartItems.map((item) => (
+                    <li key={item.id} className="flex justify-between">
+                      <div className="inline-flex">
+                        <img
+                          src={item.image}
                           alt={item.name}
                           className="max-h-16 object-cover"
                         />
-                       <div className="ml-3">
-                          <p className="text-base font-semibold text-white">{item.name}</p>
-                         <p className="text-sm font-medium text-white text-opacity-80">
-                           Quantity: {item.quantity}
+                        <div className="ml-3">
+                          <p className="text-base font-semibold text-white">
+                            {item.name}
+                          </p>
+                          <p className="text-sm font-medium text-white text-opacity-80">
+                            Quantity: {item.quantity}
                           </p>
                         </div>
-                     </div>
-                     <p className="text-sm font-semibold text-white">
-                       ₱{item.price * item.quantity}
+                      </div>
+                      <p className="text-sm font-semibold text-white">
+                        ₱{item.price * item.quantity}
                       </p>
                     </li>
                   ))
-               )}
+                )}
               </ul>
 
               <div className="my-5 h-0.5 w-full bg-white bg-opacity-30"></div>
 
-             <div className="space-y-2">
-               <p className="flex justify-between text-lg font-bold text-white">
-                 <span>Total price:</span>
+              <div className="space-y-2">
+                <p className="flex justify-between text-lg font-bold text-white">
+                  <span>Total price:</span>
                   <span>
-                  ₱{cartItems.reduce((total, item) => total + item.price * item.quantity, 0)}
-                 </span>
-              </p>
+                    ₱
+                    {cartItems.reduce(
+                      (total, item) => total + item.price * item.quantity,
+                      0
+                    )}
+                  </span>
+                </p>
               </div>
             </div>
           </div>
