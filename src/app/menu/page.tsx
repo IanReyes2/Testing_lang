@@ -55,6 +55,29 @@ export default function MenuPage() {
       price: 25,
       image: "/assets/img/bihon.jpg",
     },
+     {
+      id: 9,
+      name: "Adobong sitaw",
+      price: 25,
+      image: "/assets/img/egg.jpg",
+    },
+    {
+      id: 10,
+      name: "who toucha my spaghet",
+      price: 25,
+      image: "/assets/img/Spaghetti.jpg",
+    },
+    { id: 11, 
+      name: "Carbonara", 
+      price: 25, 
+      image: "/assets/img/carbonara.jpg" },
+    
+    {
+      id: 12,
+      name: "Eyyy Bihon HAHAHAHA",
+      price: 25,
+      image: "/assets/img/bihon.jpg",
+    },
   ];
 
   const handleAddToCart = (item: string) => {
