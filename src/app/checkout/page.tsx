@@ -9,7 +9,7 @@ export default function CheckoutPage() {
   const { cartItems, clearCart } = useCart();
   const { addOrderToHistory } = useHistoryContext();
   const [orderCode, setOrderCode] = useState("");
-    const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   // ito yung code generator
   const genCode = () => {
@@ -61,7 +61,7 @@ export default function CheckoutPage() {
                   {orderCode || "Code appears here."}
                 </div>
               </form>
-                    <button
+              <button
                 type="button"
                 disabled={isPlacingOrder} // disable after click
                 className={`mt-4 inline-flex w-full items-center justify-center rounded py-2.5 px-4 text-base font-semibold tracking-wide outline-none ring-offset-2 transition sm:text-lg ${
@@ -70,7 +70,11 @@ export default function CheckoutPage() {
                     : "hover:text-opacity-100 focus:ring-2 focus:ring-teal-500"
                 }`}
                 onClick={handleFinishOrder}
-                style={!isPlacingOrder ? { backgroundColor: "#670E10", color: "#fff" } : {}}
+                style={
+                  !isPlacingOrder
+                    ? { backgroundColor: "#670E10", color: "#fff" }
+                    : {}
+                }
               >
                 {isPlacingOrder ? "Processing..." : "Place Order"}
               </button>
