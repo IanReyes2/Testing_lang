@@ -2,11 +2,11 @@
 "use client";
 import img from "next/image";
 import { useRouter } from "next/navigation";
-import { useHistoryContext } from "../HistoryContext"; // ⬅ added
+import { useHistoryContext } from "../HistoryContext"; 
 
 export default function Page() {
   const router = useRouter();
-  const { history } = useHistoryContext(); // ⬅ added
+  const { history } = useHistoryContext(); 
 
   return (
     <section className="py-24 bg-white">
@@ -23,7 +23,7 @@ export default function Page() {
                 key={order.id}
                 className="box p-8 rounded-3xl bg-gray-100 grid grid-cols-8 mb-7 cursor-pointer transition-all duration-500 hover:bg-indigo-50 max-lg:max-w-xl max-lg:mx-auto"
               >
-                {/* Product Image */}
+                {/* to display image ng product */}
                 <div className="col-span-8 sm:col-span-4 lg:col-span-1 sm:row-span-4 lg:row-span-1">
                   <img
                     src={order.items[0]?.image || "/assets/img/Cutie.png"}
@@ -32,8 +32,7 @@ export default function Page() {
                   />
                 </div>
 
-                {/* Product Name */}
-                {/* Product Name */}
+                {/* To display yung product name */}
                 <div className="col-span-8 sm:col-span-4 lg:col-span-3 flex h-full justify-center pl-4 flex-col max-lg:items-center">
                   <h5 className="font-manrope font-semibold text-2xl leading-9 text-black mb-1 whitespace-nowrap">
                     {order.items[0]?.name}
@@ -41,27 +40,27 @@ export default function Page() {
                   <p className="font-normal text-base leading-7 text-gray-600 max-md:text-center">
                     {order.items[0]?.description || ""}
                   </p>
-                  {/* Order Code */}
+                  {/* to dislpay yung order code */}
                   <p className="font-semibold text-sm leading-5 text-gray-500 mt-2">
                     Code: {order.code}
                   </p>
                 </div>
 
-                {/* Price */}
+                {/* to display yung price */}
                 <div className="col-span-8 sm:col-span-4 lg:col-span-1 flex items-center justify-center">
                   <p className="font-semibold text-xl leading-8 text-black">
                     ₱{order.items[0] ? order.items[0].price : 0}
                   </p>
                 </div>
 
-                {/* Quantity */}
+                {/* to display yung quantity */}
                 <div className="col-span-8 sm:col-span-4 lg:col-span-1 flex items-center justify-center">
                   <p className="font-semibold text-xl leading-8 text-indigo-600 text-center">
                     {order.items[0]?.quantity}
                   </p>
                 </div>
 
-                {/* Order Date */}
+                {/* to display yung order date */}
                 <div className="col-span-8 sm:col-span-4 lg:col-span-2 flex items-center justify-center">
                   <p className="font-semibold text-xl leading-8 text-black">
                     {order.date}

@@ -30,7 +30,7 @@ export default function CartPage() {
             key={item.id}
             className="border p-4 mb-4 flex items-center justify-between"
           >
-            {/* Item display */}
+            {/* para makita mo inorder mo */}
             <div className="flex items-center gap-4">
               <img
                 src={item.image}
@@ -40,7 +40,7 @@ export default function CartPage() {
               <span>{item.name}</span>
             </div>
 
-            {/* Quantity controls */}
+            {/* increase & decrease */}
             <div className="flex items-center gap-2">
               <button
                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -55,10 +55,10 @@ export default function CartPage() {
               </button>
             </div>
 
-            {/* Price */}
+            {/* to calcaulate the price */}
             <span>₱{item.price * item.quantity}</span>
 
-            {/* Remove */}
+            {/* remove item sa cart */}
             <button
               onClick={() => removeFromCart(item.id)}
               className="ml-4 px-3 py-1 text-white rounded"

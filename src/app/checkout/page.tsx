@@ -33,9 +33,9 @@ export default function CheckoutPage() {
     date: new Date().toLocaleString(),
   });
 
-  clearCart();
+  clearCart(); //after mag finish yung transaction it will clear the cart
 
-  // wait 2 seconds so user sees the code
+  // 2 second timer for code generation
   setTimeout(() => {
     router.push("/");
   }, 2000);
@@ -62,7 +62,7 @@ export default function CheckoutPage() {
               </form>
               <button
                 type="submit"
-                className="mt-4 inline-flex w-full items-center justify-center rounded bg-teal-600 py-2.5 px-4 text-base font-semibold tracking-wide text-white text-opacity-80 outline-none ring-offset-2 transition hover:text-opacity-100 focus:ring-2 focus:ring-teal-500 sm:text-lg"
+                className="mt-4 inline-flex w-full items-center justify-center rounded py-2.5 px-4 text-base font-semibold tracking-wide text-white text-opacity-80 outline-none ring-offset-2 transition hover:text-opacity-100 focus:ring-2 focus:ring-teal-500 sm:text-lg"
                 onClick={handleFinishOrder}
                 style={{
                   backgroundColor: "#670E10",
@@ -71,17 +71,11 @@ export default function CheckoutPage() {
               >
                 Place Order
               </button>
-            </div>
+            </div> 
           </div>
           <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
-            <h2 className="sr-only">Order summary</h2>
             <div>
-              <img
-                src="https://images.unsplash.com/photo-1581318694548-0fb6e47fe59b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 h-full w-full bg-gradient-to-t from-teal-800 to-teal-400 opacity-95"></div>
+              <div className="absolute inset-0 h-full w-full bg-red-950 opacity-95"></div>
             </div>
             <div className="relative">
               <ul className="space-y-5">
