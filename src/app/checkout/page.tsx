@@ -27,9 +27,8 @@ export default function CheckoutPage() {
     setIsPlacingOrder(true);
     const code = genCode();
     setOrderCode(code);
-
     addOrderToHistory({
-      id: Date.now(),
+      id: Date.now().toString(), // convert number to string
       code,
       items: cartItems,
       date: new Date().toLocaleString(),

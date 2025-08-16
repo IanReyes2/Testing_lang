@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useCart } from "../CartContext";
 import { useState } from "react";
+import { CartItem } from "../CartContext";
 
 export default function MenuPage() {
   const { addToCart } = useCart();
@@ -22,11 +23,8 @@ export default function MenuPage() {
       price: 50,
       image: "/assets/img/buttermilk.jpg",
     },
-    { id: 3, 
-      name: "Adobo", 
-      price: 50, 
-      image:"/assets/img/Pork_Adobo.jpg"},
-    {  
+    { id: 3, name: "Adobo", price: 50, image: "/assets/img/Pork_Adobo.jpg" },
+    {
       id: 4,
       name: "Breaded Porkchop(s)",
       price: 50,
@@ -44,18 +42,15 @@ export default function MenuPage() {
       price: 25,
       image: "/assets/img/Spaghetti.jpg",
     },
-    { id: 7, 
-      name: "Carbonara", 
-      price: 25, 
-      image: "/assets/img/carbonara.jpg" },
-    
+    { id: 7, name: "Carbonara", price: 25, image: "/assets/img/carbonara.jpg" },
+
     {
       id: 8,
       name: "Eyyy Bihon HAHAHAHA",
       price: 25,
       image: "/assets/img/bihon.jpg",
     },
-     {
+    {
       id: 9,
       name: "Adobong sitaw",
       price: 25,
@@ -67,11 +62,13 @@ export default function MenuPage() {
       price: 25,
       image: "/assets/img/Spaghetti.jpg",
     },
-    { id: 11, 
-      name: "Carbonara", 
-      price: 25, 
-      image: "/assets/img/carbonara.jpg" },
-    
+    {
+      id: 11,
+      name: "Carbonara",
+      price: 25,
+      image: "/assets/img/carbonara.jpg",
+    },
+
     {
       id: 12,
       name: "Eyyy Bihon HAHAHAHA",
@@ -80,7 +77,7 @@ export default function MenuPage() {
     },
   ];
 
-  const handleAddToCart = (item: string) => {
+  const handleAddToCart = (item: CartItem) => {
     addToCart({ ...item, quantity: 1 });
     setClickedButtons((prev) => ({ ...prev, [item.id]: true }));
 
@@ -98,17 +95,19 @@ export default function MenuPage() {
         {menuItems.map((item) => (
           <div
             key={item.id}
-            className="border rounded-lg overflow-hidden shadow p-4"
+            className="border rounded-lg overflow-hidden shadow p-4 flex flex-col justify-between h-full"
           >
-            <img
-              src={item.image}
-              alt={item.name}
-              className="w-full h-48 object-cover"
-            />
-            <h2>{item.name}</h2>
-            <p>₱{item.price}</p>
+            <div>
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-full h-48 object-cover mb-4"
+              />
+              <h2 className="mb-2">{item.name}</h2>
+              <p className="mb-4">₱{item.price}</p>
+            </div>
             <button
-              onClick={() => handleAddToCart(item)}
+              onClick={() => handleAddToCart(item as CartItem)}
               disabled={clickedButtons[item.id]}
               className="fw-bold px-4 py-2 border-0 rounded transition-colors duration-300"
               style={{
@@ -130,13 +129,13 @@ export default function MenuPage() {
       >
         <div className="container d-flex justify-content-between align-items-center py-2">
           <Link href="/startup">
-          <img
-            src="/assets/img/SFAC_LOGO_Edited.png"
-            alt="Logo"
-            className="h-12 sm:h-16 md:h-20 lg:h-24 object-contain"
-          />
+            <img
+              src="/assets/img/SFAC_LOGO_Edited.png"
+              alt="Logo"
+              className="h-12 sm:h-16 md:h-20 lg:h-24 object-contain"
+            />
           </Link>
-           <nav id="navmenu" className="navmenu">
+          <nav id="navmenu" className="navmenu">
             <li>
               <ul className="d-flex gap-4 m-0 list-unstyled">
                 <Link href="history">History</Link>

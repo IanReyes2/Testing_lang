@@ -1,9 +1,16 @@
 "use client";
 import { useCart } from "../CartContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation"; // added
 
 export default function CartPage() {
-  const { cartItems, updateQuantity, removeFromCart } = useCart();
+  const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart(); // added clearCart
+  const router = useRouter(); // added
+
+  const handleLogoClick = () => {
+    clearCart(); // clear the cart
+    router.push("/startup"); // go back to startup page
+  };
 
   return (
     <section className="p-8">
@@ -81,6 +88,8 @@ export default function CartPage() {
             src="/assets/img/SFAC_LOGO_Edited.png"
             alt="Logo"
             className="h-12 sm:h-16 md:h-20 lg:h-24 object-contain"
+            onClick={handleLogoClick} // added
+            style={{ cursor: "pointer" }} // optional: shows it's clickable
           />
           <nav id="navmenu" className="navmenu">
             <li>

@@ -37,9 +37,6 @@ export default function Page() {
                   <h5 className="font-manrope font-semibold text-2xl leading-9 text-black mb-1 whitespace-nowrap">
                     {order.items[0]?.name}
                   </h5>
-                  <p className="font-normal text-base leading-7 text-gray-600 max-md:text-center">
-                    {order.items[0]?.description || ""}
-                  </p>
                   <p className="font-semibold text-sm leading-5 text-gray-500 mt-2">
                     Code: {order.code}
                   </p>

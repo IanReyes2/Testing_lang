@@ -1,12 +1,13 @@
 "use client";
 import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
+import { CartItem } from './CartContext';
 
-type Order = {
+interface Order {
   id: string;
-  items: { name: string; price: number; quantity: number }[];
-  total: number;
+  code: string; // add this
+  items: CartItem[];
   date: string;
-};
+}
 
 type HistoryContextType = {
   history: Order[];

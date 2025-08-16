@@ -1,6 +1,9 @@
+import Script from "next/script";
 import './globals.css';
 import { CartProvider } from './CartContext';
 import { HistoryProvider } from "../app/HistoryContext";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 export const metadata = {
   title: 'The FrancisCanteen :)',
@@ -8,7 +11,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+     <html lang="en">
       <head>
         {/* Template CSS Files */}
         <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css" />
@@ -21,19 +24,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <CartProvider>
           <HistoryProvider>
-          {children}
+            {children}
           </HistoryProvider>
         </CartProvider>
 
         {/* Template JS Files */}
-        <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="/assets/vendor/php-email-form/validate.js"></script>
-        <script src="/assets/vendor/aos/aos.js"></script>
-        <script src="/assets/vendor/glightbox/js/glightbox.min.js"></script>
-        <script src="/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-        <script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-        <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
-        <script src="/assets/js/main.js"></script>
+        <Script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js" strategy="afterInteractive" />
+        <Script src="/assets/vendor/php-email-form/validate.js" strategy="afterInteractive" />
+        <Script src="/assets/vendor/aos/aos.js" strategy="afterInteractive" />
+        <Script src="/assets/vendor/glightbox/js/glightbox.min.js" strategy="afterInteractive" />
+        <Script src="/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js" strategy="afterInteractive" />
+        <Script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js" strategy="afterInteractive" />
+        <Script src="/assets/vendor/swiper/swiper-bundle.min.js" strategy="afterInteractive" />
+        <Script src="/assets/js/main.js" strategy="afterInteractive" />
       </body>
     </html>
   );
