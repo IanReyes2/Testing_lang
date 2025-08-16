@@ -1,0 +1,36 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model MenuItem {
+  id        Int      @id @default(autoincrement())
+  name      String
+  price     Float
+  available Boolean  @default(true)
+  OrderItems OrderItem[]
+}
+
+model Order {
+  id           Int       @id @default(autoincrement())
+  customerCode String    @unique
+  status       String    @default("PENDING")
+  total        Float     @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  items        OrderItem[]
+}
+
+model OrderItem {
+  id         Int      @id @default(autoincrement())
+  orderId    Int
+  menuItemId Int
+  qty        Int
+  unitPrice  Float
+  order      Order    @relation(fields: [orderId], references: [id])
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+}
