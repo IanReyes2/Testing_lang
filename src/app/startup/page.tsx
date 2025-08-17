@@ -1,6 +1,6 @@
 "use client";
-
 import Link from "next/link";
+import Image from "next/image";
 
 export default function StartupPage() {
   return (
@@ -11,11 +11,13 @@ export default function StartupPage() {
         className="header fixed-top"
         style={{ backgroundColor: "#670E10", color: "#fff" }}
       >
-        <div className="container d-flex justify-content-between align-items-center py-2">
-          <img
+        <div className="relative w-full h-64 md:h-96">
+          <Image
             src="/assets/img/SFAC_LOGO_Edited.png"
-            alt="Logo"
-            className="h-12 sm:h-16 md:h-20 lg:h-24 object-contain"
+            alt="logo"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
 
           <nav id="navmenu" className="navmenu">

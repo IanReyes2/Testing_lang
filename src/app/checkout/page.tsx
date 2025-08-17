@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "../CartContext";
 import { useHistoryContext } from "../HistoryContext";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -11,7 +12,6 @@ export default function CheckoutPage() {
   const [orderCode, setOrderCode] = useState("");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
-  // ito yung code generator
   const genCode = () => {
     const letters =
       String.fromCharCode(65 + Math.floor(Math.random() * 26)) +
@@ -28,15 +28,14 @@ export default function CheckoutPage() {
     const code = genCode();
     setOrderCode(code);
     addOrderToHistory({
-      id: Date.now().toString(), // convert number to string
+      id: Date.now().toString(),
       code,
       items: cartItems,
       date: new Date().toLocaleString(),
     });
 
-    clearCart(); //after mag finish yung transaction it will clear the cart
+    clearCart();
 
-    // 5 second timer for code generation
     setTimeout(() => {
       router.push("/");
     }, 5000);
@@ -46,6 +45,7 @@ export default function CheckoutPage() {
     <section>
       <div className="relative mx-auto w-full bg-white">
         <div className="grid min-h-screen grid-cols-10">
+          {/* LEFT SIDE */}
           <div className="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24">
             <div className="mx-auto w-full max-w-lg">
               <h1 className="relative text-2xl font-medium text-gray-700 sm:text-3xl">
@@ -62,7 +62,7 @@ export default function CheckoutPage() {
               </form>
               <button
                 type="button"
-                disabled={isPlacingOrder} // disable after click
+                disabled={isPlacingOrder}
                 className={`mt-4 inline-flex w-full items-center justify-center rounded py-2.5 px-4 text-base font-semibold tracking-wide outline-none ring-offset-2 transition sm:text-lg ${
                   isPlacingOrder
                     ? "bg-gray-400 text-gray-200 cursor-not-allowed"
@@ -79,6 +79,8 @@ export default function CheckoutPage() {
               </button>
             </div>
           </div>
+
+          {/* RIGHT SIDE */}
           <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
             <div>
               <div className="absolute inset-0 h-full w-full bg-red-950 opacity-95"></div>
@@ -90,12 +92,15 @@ export default function CheckoutPage() {
                 ) : (
                   cartItems.map((item) => (
                     <li key={item.id} className="flex justify-between">
-                      <div className="inline-flex">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="max-h-16 object-cover"
-                        />
+                      <div className="inline-flex items-center">
+                        <div className="relative w-16 h-16 flex-shrink-0">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover rounded-md"
+                          />
+                        </div>
                         <div className="ml-3">
                           <p className="text-base font-semibold text-white">
                             {item.name}

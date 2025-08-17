@@ -4,10 +4,11 @@ import { prisma } from '../../../lib/prisma';
 // GET → fetch single order by ID
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const orderId = parseInt(params.id);
+    const { id } = await params;
+    const orderId = parseInt(id, 10);
     if (isNaN(orderId)) {
       return NextResponse.json({ error: 'Invalid order ID' }, { status: 400 });
     }
@@ -24,7 +25,10 @@ export async function GET(
     }
 
     return NextResponse.json(order);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: (error as Error).message },
+      { status: 500 }
+    );
   }
 }

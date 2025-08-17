@@ -1,7 +1,7 @@
 // src/app/menu/page.tsx
 "use client";
-import img from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useHistoryContext } from "../HistoryContext";
 
 export default function Page() {
@@ -24,11 +24,12 @@ export default function Page() {
                 className="box p-8 rounded-3xl bg-gray-100 grid grid-cols-8 mb-7 transition-all duration-500 hover:bg-indigo-50 max-lg:max-w-xl max-lg:mx-auto"
               >
                 {/* to display image ng product */}
-                <div className="col-span-8 sm:col-span-4 lg:col-span-1 sm:row-span-4 lg:row-span-1">
-                  <img
+                <div className="relative w-24 h-24 max-lg:mx-auto col-span-8 sm:col-span-4 lg:col-span-1 sm:row-span-4 lg:row-span-1">
+                  <Image
                     src={order.items[0]?.image || "/assets/img/Cutie.png"}
                     alt={order.items[0]?.name || "product image"}
-                    className="max-lg:w-auto max-sm:mx-auto rounded-xl object-cover"
+                    fill
+                    className="rounded-xl object-cover"
                   />
                 </div>
 

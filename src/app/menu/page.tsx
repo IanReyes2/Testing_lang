@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useCart } from "../CartContext";
 import { useState } from "react";
 import { CartItem } from "../CartContext";
+import Image from "next/image";
 
 export default function MenuPage() {
   const { addToCart } = useCart();
@@ -98,11 +99,17 @@ export default function MenuPage() {
             className="border rounded-lg overflow-hidden shadow p-4 flex flex-col justify-between h-full"
           >
             <div>
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-full h-48 object-cover mb-4"
-              />
+              <div className="relative w-full h-48 mb-4">
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  fill
+                  className="object-cover rounded"
+                  sizes="(max-width: 640px) 100vw,
+                         (max-width: 1024px) 50vw,
+                         25vw"
+                />
+              </div>
               <h2 className="mb-2">{item.name}</h2>
               <p className="mb-4">₱{item.price}</p>
             </div>
@@ -129,11 +136,15 @@ export default function MenuPage() {
       >
         <div className="container d-flex justify-content-between align-items-center py-2">
           <Link href="/startup">
-            <img
-              src="/assets/img/SFAC_LOGO_Edited.png"
-              alt="Logo"
-              className="h-12 sm:h-16 md:h-20 lg:h-24 object-contain"
-            />
+            <div className="relative h-12 sm:h-16 md:h-20 lg:h-24 w-auto">
+              <Image
+                src="/assets/img/SFAC_LOGO_Edited.png"
+                alt="Logo"
+                fill
+                className="object-contain"
+                sizes="20vw"
+              />
+            </div>
           </Link>
           <nav id="navmenu" className="navmenu">
             <li>
