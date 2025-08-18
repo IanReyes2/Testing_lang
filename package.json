@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "ts-node prisma/seed.ts"
-
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.7",
