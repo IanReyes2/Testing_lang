@@ -7,8 +7,8 @@ async function main() {
   await prisma.menuItem.createMany({
     data: [
       { name: "Fried Chicken", price: "50.00" },
-      { name: "Pork Adobo", price: "60.00" },
-      { name: "Beef Steak", price: "70.00" },
+      { name: "Chicken Adobo", price: "50.00" },
+      { name: "Spaghetti", price: "35.00" },
       { name: "Rice", price: "15.00" },
       { name: "Iced Tea", price: "20.00" },
     ],

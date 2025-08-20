@@ -140,9 +140,9 @@ export default function MenuPage() {
               <Image
                 src="/assets/img/SFAC_LOGO_Edited.png"
                 alt="Logo"
-                fill
+                width={90}
+                height={90}
                 className="object-contain"
-                sizes="20vw"
               />
             </div>
           </Link>
