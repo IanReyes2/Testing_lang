@@ -1,92 +1,48 @@
 "use client";
 import Link from "next/link";
 import { useCart } from "../CartContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CartItem } from "../CartContext";
 import Image from "next/image";
 
+type MenuItem = {
+  id: number;
+  name: string;
+  price: number;
+  image?: string; // in case your DB has an image column later
+};
+
 export default function MenuPage() {
   const { addToCart } = useCart();
-  const [clickedButtons, setClickedButtons] = useState<{
-    [key: number]: boolean;
-  }>({});
+  const [clickedButtons, setClickedButtons] = useState<{ [key: number]: boolean }>({});
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const menuItems = [
-    {
-      id: 1,
-      name: "Kanin",
-      price: 750,
-      image: "/assets/img/kanin.jpg",
-    },
-    {
-      id: 2,
-      name: "Fried na prinitong chicken",
-      price: 50,
-      image: "/assets/img/buttermilk.jpg",
-    },
-    { id: 3, name: "Adobo", price: 50, image: "/assets/img/Pork_Adobo.jpg" },
-    {
-      id: 4,
-      name: "Breaded Porkchop(s)",
-      price: 50,
-      image: "/assets/img/porkchop.jpg",
-    },
-    {
-      id: 5,
-      name: "Fried egg :)",
-      price: 100,
-      image: "/assets/img/egg.jpg",
-    },
-    {
-      id: 6,
-      name: "who toucha my spaghet",
-      price: 25,
-      image: "/assets/img/Spaghetti.jpg",
-    },
-    { id: 7, name: "Carbonara", price: 25, image: "/assets/img/carbonara.jpg" },
-
-    {
-      id: 8,
-      name: "Eyyy Bihon HAHAHAHA",
-      price: 25,
-      image: "/assets/img/bihon.jpg",
-    },
-    {
-      id: 9,
-      name: "Adobong sitaw",
-      price: 25,
-      image: "/assets/img/egg.jpg",
-    },
-    {
-      id: 10,
-      name: "who toucha my spaghet",
-      price: 25,
-      image: "/assets/img/Spaghetti.jpg",
-    },
-    {
-      id: 11,
-      name: "Carbonara",
-      price: 25,
-      image: "/assets/img/carbonara.jpg",
-    },
-
-    {
-      id: 12,
-      name: "Eyyy Bihon HAHAHAHA",
-      price: 25,
-      image: "/assets/img/bihon.jpg",
-    },
-  ];
+  useEffect(() => {
+    async function fetchMenu() {
+      try {
+        const res = await fetch("/api/menu");
+        const data = await res.json();
+        setMenuItems(data);
+      } catch (err) {
+        console.error("❌ Failed to load menu:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchMenu();
+  }, []);
 
   const handleAddToCart = (item: CartItem) => {
     addToCart({ ...item, quantity: 1 });
     setClickedButtons((prev) => ({ ...prev, [item.id]: true }));
 
-    // ito yung sa time kung gano kabilis mag change color
     setTimeout(() => {
       setClickedButtons((prev) => ({ ...prev, [item.id]: false }));
     }, 500);
   };
+
+  if (loading) return <p className="text-center mt-10">Loading menu...</p>;
 
   return (
     <div className="container text-center pt-[120px] pb-5">
@@ -101,7 +57,7 @@ export default function MenuPage() {
             <div>
               <div className="relative w-full h-48 mb-4">
                 <Image
-                  src={item.image}
+                  src={item.image || "/assets/img/default.jpg"} // fallback image
                   alt={item.name}
                   fill
                   className="object-cover rounded"

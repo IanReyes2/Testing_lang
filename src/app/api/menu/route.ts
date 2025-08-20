@@ -1,18 +1,25 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '../../lib/prisma';
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 
-// GET → fetch all available menu items
+// ✅ Prevent multiple instances of PrismaClient in dev
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+
+const prisma =
+  globalForPrisma.prisma ||
+  new PrismaClient({
+    log: ["query"], // optional: logs queries in dev
+  });
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+
 export async function GET() {
   try {
-    const menu = await prisma.menuItem.findMany({
-      where: { available: true },
-      orderBy: { id: 'asc' },
+    const menuItems = await prisma.menuItem.findMany({
+      where: { available: true }, // only show available items
     });
-    return NextResponse.json(menu);
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-    return NextResponse.json({ error: 'Unknown error' }, { status: 500 });
+    return NextResponse.json(menuItems);
+  } catch (error) {
+    console.error("❌ Error fetching menu items:", error);
+    return NextResponse.json({ error: "Failed to fetch menu" }, { status: 500 });
   }
 }
