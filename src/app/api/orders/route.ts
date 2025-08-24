@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '../../lib/prisma';
 
-// Simple function para gumawa ng 6-character customer code
+// function para sa 6-character customer code
 function genCode(len = 6) {
   return Math.random().toString(36).substring(2, 2 + len);
 }
 
-// GET → kunin lahat ng orders (for Cashier)
+//  orders (para kay cashier)
 export async function GET() {
   try {
     const orders = await prisma.order.findMany({
@@ -22,7 +22,7 @@ export async function GET() {
   }
 }
 
-// POST → gumawa ng bagong order (for Kiosk)
+// for kiosk
 export async function POST(req: Request) {
   try {
     const { items }: { items: { menuItemId: number; qty: number }[] } = await req.json();
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'No items' }, { status: 400 });
     }
 
-    // Kunin presyo ng bawat menu item
+    // price ng bawat menu item
     const ids = items.map((i) => i.menuItemId);
     const menu = await prisma.menuItem.findMany({ where: { id: { in: ids } } });
 
