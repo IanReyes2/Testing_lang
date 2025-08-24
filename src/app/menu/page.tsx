@@ -9,7 +9,7 @@ type MenuItem = {
   id: number;
   name: string;
   price: number;
-  image?: string; // in case your DB has an image column later
+  image?: string; 
 };
 
 export default function MenuPage() {
@@ -21,11 +21,23 @@ export default function MenuPage() {
   useEffect(() => {
     async function fetchMenu() {
       try {
+        // fetch menu data
         const res = await fetch("/api/menu");
         const data = await res.json();
-        setMenuItems(data);
+
+        // fetch images mapping
+        const imgRes = await fetch("/api/menu-images");
+        const images = await imgRes.json();
+
+        // merge images into menu items
+        const merged = data.map((item: MenuItem) => ({
+          ...item,
+          image: images[item.id] || "/assets/img/default.jpg",
+        }));
+
+        setMenuItems(merged);
       } catch (err) {
-        console.error("❌ Failed to load menu:", err);
+        console.error("Failed to load menu:", err);
       } finally {
         setLoading(false);
       }
@@ -57,7 +69,7 @@ export default function MenuPage() {
             <div>
               <div className="relative w-full h-48 mb-4">
                 <Image
-                  src={item.image || "/assets/img/default.jpg"} // fallback image
+                  src={item.image || "/assets/img/default.jpg"} 
                   alt={item.name}
                   fill
                   className="object-cover rounded"

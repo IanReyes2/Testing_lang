@@ -37,8 +37,8 @@ export default function StartupPage() {
         style={{
           background:
             "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/assets/img/paper-texture.jpg') center/cover no-repeat",
-          paddingTop: "100px", // offset for fixed header
-          paddingBottom: "80px", // offset for footer
+          paddingTop: "100px", 
+          paddingBottom: "80px", 
         }}
       >
         {/* Hero Logo */}

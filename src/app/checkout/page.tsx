@@ -53,8 +53,7 @@ export default function CheckoutPage() {
               </h1>
               <form action="" className="mt-10 flex flex-col space-y-4">
                 <div className="p-2 rounded-md text-gray-700 pointer-events-none">
-                  A Transaction code will be generated for 5 seconds after
-                  placing your order.
+                  A Transaction code will be generated for 5 seconds, this is your order code to be displayed when claiming.
                 </div>
                 <div className="bg-gray-100 border border-gray-300 p-2 rounded-md text-gray-700 pointer-events-none">
                   {orderCode || "Code appears here."}
