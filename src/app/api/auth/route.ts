@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
-import prisma from "../../../../prisma"; // adjust path if needed
+import prisma from "../../../../prisma";
 
 export async function POST(req: Request) {
   try {
-    const { username, password } = await req.json(); // ✅ use username instead of id
+    const { username, password } = await req.json();
 
     if (!username || !password) {
       return NextResponse.json(
@@ -14,7 +13,7 @@ export async function POST(req: Request) {
     }
 
     const user = await prisma.user.findUnique({
-      where: { username }, // ✅ search by username (must be unique in schema)
+      where: { username },
     });
 
     if (!user) {
@@ -24,8 +23,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const passwordMatches = await bcrypt.compare(password, user.passwordHash); // ✅
-    if (!passwordMatches) {
+    if (password !== user.password) {
       return NextResponse.json(
         { error: "Invalid credentials." },
         { status: 401 }
@@ -37,7 +35,7 @@ export async function POST(req: Request) {
         message: "Login successful!",
         user: {
           id: user.id,
-          name: user.fullName ?? user.username ?? "Unknown",
+          name: user.username,
         },
       },
       { status: 200 }
