@@ -4,6 +4,7 @@ import { CartProvider } from './CartContext';
 import { HistoryProvider } from "../app/HistoryContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 // ✅ Add these imports instead of <link> tags
 import '../../styles/main.css';
 import '../../styles/vendor/bootstrap-icons.css';
