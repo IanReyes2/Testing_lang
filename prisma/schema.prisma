@@ -42,3 +42,12 @@ model OrderItem {
   order      Order    @relation(fields: [orderId], references: [id])
   menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
 }
+
+model User {
+  id           Int     @id @default(autoincrement())
+  username     String  @unique
+  fullName     String?
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
