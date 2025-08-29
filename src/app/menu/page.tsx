@@ -124,8 +124,8 @@ export default function MenuPage() {
         </div>
       </header>
 
-      <div className="fixed bottom-0 left-0 w-full flex justify-center pb-6">
-        <Link href="/cart">
+      <div className="fixed bottom-0 left-0 w-full flex justify-center pb-6 space-x-4">
+        <Link href="/startup">
           <button
             className="fw-bold px-4 py-2 border-0 rounded"
             style={{
@@ -133,7 +133,18 @@ export default function MenuPage() {
               color: "#fff",
             }}
           >
-            Proceed to cart
+             BACK TO HOMEPAGE
+          </button>
+        </Link>
+        <Link href="/cart">
+          <button
+            className="fw-bold px-4 py-2 border-0 rounded "
+            style={{
+              backgroundColor: "#670E10",
+              color: "#fff",
+            }}
+          >
+           PROCEED TO CART
           </button>
         </Link>
       </div>

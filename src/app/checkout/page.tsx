@@ -74,7 +74,7 @@ export default function CheckoutPage() {
                     : {}
                 }
               >
-                {isPlacingOrder ? "Processing..." : "Place Order"}
+                {isPlacingOrder ? "Processing and redirect after..." : "Place Order"}
               </button>
             </div>
           </div>

@@ -112,7 +112,15 @@ export default function CartPage() {
 
       {/* Checkout Button */}
       {cartItems.length > 0 && (
-        <div className="fixed left-0 right-0 w-full flex justify-center pb-6 bottom-0">
+        <div className="fixed left-0 right-0 w-full flex justify-center pb-6 bottom-0 space-x-4">
+          <Link href="/menu">
+            <button
+              className="fw-bold px-6 py-3 border-0 rounded text-base sm:text-lg"
+              style={{ backgroundColor: "#670E10", color: "#fff" }}
+            >
+              BACK TO MENU
+            </button>
+          </Link>
           <Link href="/checkout">
             <button
               className="fw-bold px-6 py-3 border-0 rounded text-base sm:text-lg"
