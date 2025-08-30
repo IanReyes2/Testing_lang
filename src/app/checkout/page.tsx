@@ -53,7 +53,8 @@ export default function CheckoutPage() {
               </h1>
               <form action="" className="mt-10 flex flex-col space-y-4">
                 <div className="p-2 rounded-md text-gray-700 pointer-events-none">
-                  A Transaction code will be generated for 5 seconds, this is your order code to be displayed when claiming.
+                  A Transaction code will be generated for 5 seconds, this is
+                  your order code to be displayed when claiming.
                 </div>
                 <div className="bg-gray-100 border border-gray-300 p-2 rounded-md text-gray-700 pointer-events-none">
                   {orderCode || "Code appears here."}
@@ -74,62 +75,104 @@ export default function CheckoutPage() {
                     : {}
                 }
               >
-                {isPlacingOrder ? "Processing and redirect after..." : "Place Order"}
+                {isPlacingOrder
+                  ? "Processing and redirect after..."
+                  : "Place Order"}
               </button>
             </div>
           </div>
 
           {/* RIGHT SIDE */}
-          <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
-            <div>
-              <div className="absolute inset-0 h-full w-full bg-red-950 opacity-95"></div>
-            </div>
-            <div className="relative">
-              <ul className="space-y-5">
-                {cartItems.length === 0 ? (
-                  <p className="text-white">Your cart is empty</p>
-                ) : (
-                  cartItems.map((item) => (
-                    <li key={item.id} className="flex justify-between">
-                      <div className="inline-flex items-center">
-                        <div className="relative w-16 h-16 flex-shrink-0">
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fill
-                            className="object-cover rounded-md"
-                          />
-                        </div>
-                        <div className="ml-3">
-                          <p className="text-base font-semibold text-white">
-                            {item.name}
-                          </p>
-                          <p className="text-sm font-medium text-white text-opacity-80">
-                            Quantity: {item.quantity}
-                          </p>
-                        </div>
-                      </div>
-                      <p className="text-sm font-semibold text-white">
-                        ₱{item.price * item.quantity}
-                      </p>
-                    </li>
-                  ))
-                )}
-              </ul>
+          {/* RIGHT SIDE */}
+          <div className="col-span-full lg:col-span-4 flex items-center justify-center p-6">
+            <div className="bg-[#670E10] rounded-lg shadow-lg w-full max-w-md h-[600px] overflow-y-auto p-4">
+              <div className="bg-white rounded-lg shadow px-6 py-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center">
+                    <img
+                      className="h-8 w-8 mr-2"
+                      src="/assets/img/SFAC_LOGO_Edited.png"
+                      alt="Logo"
+                    />
+                    <div className="text-gray-700 font-semibold text-lg">
+                      The FrancisCanteen
+                    </div>
+                  </div>
+                </div>
 
-              <div className="my-5 h-0.5 w-full bg-white bg-opacity-30"></div>
+                <div className="border-b-2 border-gray-300 pb-8 mb-8">
+                  <h2 className="text-2xl font-bold mb-4">Details:</h2>
+                  <div className="text-gray-700">
+                    <div className="text-xl">DATE: 01/05/2023</div>
+                    <div className="text-xl">ORDER CODE #: INV12345</div>
+                  </div>
+                </div>
 
-              <div className="space-y-2">
-                <p className="flex justify-between text-lg font-bold text-white">
-                  <span>Total price:</span>
-                  <span>
-                    ₱
-                    {cartItems.reduce(
-                      (total, item) => total + item.price * item.quantity,
-                      0
-                    )}
-                  </span>
-                </p>
+                <table className="w-full text-left mb-8">
+                  <thead>
+                    <tr>
+                      <th className="text-gray-700 font-bold uppercase py-2">
+                        Description
+                      </th>
+                      <th className="text-gray-700 font-bold uppercase py-2">
+                        Quantity
+                      </th>
+                      <th className="text-gray-700 font-bold uppercase py-2">
+                        Price
+                      </th>
+                      <th className="text-gray-700 font-bold uppercase py-2">
+                        Total
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="py-4 text-gray-700">Product 1</td>
+                      <td className="py-4 text-gray-700">1</td>
+                      <td className="py-4 text-gray-700">$100.00</td>
+                      <td className="py-4 text-gray-700">$100.00</td>
+                    </tr>
+                    <tr>
+                      <td className="py-4 text-gray-700">Product 2</td>
+                      <td className="py-4 text-gray-700">2</td>
+                      <td className="py-4 text-gray-700">$50.00</td>
+                      <td className="py-4 text-gray-700">$100.00</td>
+                    </tr>
+                    <tr>
+                      <td className="py-4 text-gray-700">Product 3</td>
+                      <td className="py-4 text-gray-700">3</td>
+                      <td className="py-4 text-gray-700">$75.00</td>
+                      <td className="py-4 text-gray-700">$225.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div className="flex justify-end mb-8">
+                  <div className="text-gray-700 mr-2">Subtotal:</div>
+                  <div className="text-gray-700">$425.00</div>
+                </div>
+
+                <div className="text-right mb-8">
+                  <div className="text-gray-700 mr-2">Tax:</div>
+                  <div className="text-gray-700">$25.50</div>
+                </div>
+
+                <div className="flex justify-end mb-8">
+                  <div className="text-gray-700 mr-2">Total:</div>
+                  <div className="text-gray-700 font-bold text-xl">$450.50</div>
+                </div>
+
+                <div className="border-t-2 border-gray-300 pt-8 mb-8">
+                  <div className="text-gray-700 mb-2">
+                    Any concerns must be reported to the canteen manager.
+                  </div>
+                  <div className="text-gray-700 mb-2">
+                    This is only appplicable for cafeteria operations.
+                  </div>
+                  <div className="text-gray-700">
+                    Saint Francis of Assisi College (SFAC) Las Piñas campus, #47 Admiral Village, Talon 3, Las Piñas City, 1740.
+                  </div>
+                </div>
               </div>
             </div>
           </div>

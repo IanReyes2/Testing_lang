@@ -19,8 +19,10 @@ model MenuItem {
   name       String
   price      Decimal     @db.Decimal(10,2)
   available  Boolean     @default(true)
+  category   String      @default("uncategorized") 
   OrderItems OrderItem[]
 }
+
 
 model Order {
   id           Int          @id @default(autoincrement())

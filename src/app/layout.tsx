@@ -13,7 +13,7 @@ import '../../styles/vendor/glightbox.min.css';
 import '../../styles/vendor/swiper-bundle.min.css';
 
 export const metadata = {
-  title: 'The FrancisCanteen :)',
+  title: 'The FrancisCanteen',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

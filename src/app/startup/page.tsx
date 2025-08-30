@@ -85,7 +85,7 @@ export default function StartupPage() {
       {/* Footer */}
       <footer
         id="footer"
-        className="footer text-white py-3"
+        className="footer text-white py-2"
         style={{
           backgroundColor: "#670E10",
           position: "fixed",

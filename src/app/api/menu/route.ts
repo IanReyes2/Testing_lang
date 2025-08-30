@@ -12,11 +12,18 @@ const prisma =
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const { searchParams } = new URL(req.url);
+    const category = searchParams.get("category"); // ✅ added
+
     const menuItems = await prisma.menuItem.findMany({
-      where: { available: true }, // only show available items
+      where: {
+        available: true,
+        ...(category ? { category } : {}), // ✅ added filter by category
+      },
     });
+
     return NextResponse.json(menuItems);
   } catch (error) {
     console.error("❌ Error fetching menu items:", error);

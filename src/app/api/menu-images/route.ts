@@ -12,6 +12,10 @@ export async function GET() {
     8: "/assets/img/bihon.jpg",
     9: "/assets/img/dinuguan.jpg",
     10: "/assets/img/bopis.jpg",
+    11: "/assets/img/smol_wotoh.jpg",
+    12: "/assets/img/spront.jpg",
+    13: "/assets/img/conk.jpg",
+    14: "/assets/img/big_wotoh.jpg",
   };
 
   return NextResponse.json(images);
