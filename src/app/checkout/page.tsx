@@ -6,39 +6,62 @@ import { useState } from "react";
 import Image from "next/image";
 
 export default function CheckoutPage() {
-  const router = useRouter();
+  const router = useRouter(); // kept even if you don’t use redirect
   const { cartItems, clearCart } = useCart();
   const { addOrderToHistory } = useHistoryContext();
-  const [orderCode, setOrderCode] = useState("");
+
+  // Receipt state (generated once when placing order)
+  const [orderCode, setOrderCode] = useState<string>("");
+  const [orderDate, setOrderDate] = useState<string>("");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const [showReceipt, setShowReceipt] = useState(false);
+  const [snapshotCart, setSnapshotCart] = useState<typeof cartItems>([]);
+  const [receiptTotal, setReceiptTotal] = useState<number>(0);
 
   const genCode = () => {
     const letters =
       String.fromCharCode(65 + Math.floor(Math.random() * 26)) +
       String.fromCharCode(65 + Math.floor(Math.random() * 26));
-    const numbers = String(Math.floor(Math.random() * 999) + 1).padStart(
-      3,
-      "0"
-    );
+    const numbers = String(Math.floor(Math.random() * 999) + 1).padStart(3, "0");
     return letters + numbers;
+    // Example: AB042
   };
 
   const handleFinishOrder = () => {
+    if (isPlacingOrder || showReceipt) return; // prevent duplicate generations
     setIsPlacingOrder(true);
+
+    // Generate one-time metadata
     const code = genCode();
+    const dateStr = new Date().toLocaleString();
+
+    // Snapshot cart so clearing won’t wipe the receipt
+    const itemsSnapshot = cartItems.map((it) => ({
+      ...it,
+      price: Number(it.price), // ✅ ensure number
+      quantity: it.quantity || 1, // ✅ fallback quantity
+    }));
+    const total = itemsSnapshot.reduce(
+      (sum, it) => sum + Number(it.price) * (it.quantity || 1),
+      0
+    );
+
+    // Persist in state for the receipt
     setOrderCode(code);
+    setOrderDate(dateStr);
+    setSnapshotCart(itemsSnapshot);
+    setReceiptTotal(total);
+    setShowReceipt(true);
+
+    // Save to your history as before
     addOrderToHistory({
       id: Date.now().toString(),
       code,
-      items: cartItems,
-      date: new Date().toLocaleString(),
+      items: itemsSnapshot,
+      date: dateStr,
     });
-
     clearCart();
-
-    setTimeout(() => {
-      router.push("/");
-    }, 5000);
+    setTimeout(() => router.push("/"), 5000);
   };
 
   return (
@@ -51,42 +74,42 @@ export default function CheckoutPage() {
               <h1 className="relative text-2xl font-medium text-gray-700 sm:text-3xl">
                 Checkout Information
               </h1>
+
               <form action="" className="mt-10 flex flex-col space-y-4">
                 <div className="p-2 rounded-md text-gray-700 pointer-events-none">
-                  A Transaction code will be generated for 5 seconds, this is
-                  your order code to be displayed when claiming.
+                  A Transaction code will be generated for 5 seocnds once you place the order. You will be redirected after.
                 </div>
+
                 <div className="bg-gray-100 border border-gray-300 p-2 rounded-md text-gray-700 pointer-events-none">
                   {orderCode || "Code appears here."}
                 </div>
               </form>
+
               <button
                 type="button"
-                disabled={isPlacingOrder}
+                disabled={isPlacingOrder || showReceipt}
                 className={`mt-4 inline-flex w-full items-center justify-center rounded py-2.5 px-4 text-base font-semibold tracking-wide outline-none ring-offset-2 transition sm:text-lg ${
-                  isPlacingOrder
+                  isPlacingOrder || showReceipt
                     ? "bg-gray-400 text-gray-200 cursor-not-allowed"
                     : "hover:text-opacity-100 focus:ring-2 focus:ring-teal-500"
                 }`}
                 onClick={handleFinishOrder}
                 style={
-                  !isPlacingOrder
+                  !(isPlacingOrder || showReceipt)
                     ? { backgroundColor: "#670E10", color: "#fff" }
                     : {}
                 }
               >
-                {isPlacingOrder
-                  ? "Processing and redirect after..."
-                  : "Place Order"}
+                {isPlacingOrder || showReceipt ? "Order Placed" : "Place Order"}
               </button>
             </div>
           </div>
 
           {/* RIGHT SIDE */}
-          {/* RIGHT SIDE */}
           <div className="col-span-full lg:col-span-4 flex items-center justify-center p-6">
             <div className="bg-[#670E10] rounded-lg shadow-lg w-full max-w-md h-[600px] overflow-y-auto p-4">
               <div className="bg-white rounded-lg shadow px-6 py-8">
+                {/* Header */}
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center">
                     <img
@@ -100,77 +123,94 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
+                {/* Details */}
                 <div className="border-b-2 border-gray-300 pb-8 mb-8">
                   <h2 className="text-2xl font-bold mb-4">Details:</h2>
-                  <div className="text-gray-700">
-                    <div className="text-xl">DATE: 01/05/2023</div>
-                    <div className="text-xl">ORDER CODE #: INV12345</div>
-                  </div>
+                  {showReceipt ? (
+                    <div className="text-gray-700 space-y-1">
+                      <div className="text-xl">DATE: {orderDate}</div>
+                      <div className="text-xl">ORDER CODE #: {orderCode}</div>
+                    </div>
+                  ) : (
+                    <div className="text-gray-600">
+                      Receipt will appear here after you place the order.
+                    </div>
+                  )}
                 </div>
 
-                <table className="w-full text-left mb-8">
-                  <thead>
-                    <tr>
-                      <th className="text-gray-700 font-bold uppercase py-2">
-                        Description
-                      </th>
-                      <th className="text-gray-700 font-bold uppercase py-2">
-                        Quantity
-                      </th>
-                      <th className="text-gray-700 font-bold uppercase py-2">
-                        Price
-                      </th>
-                      <th className="text-gray-700 font-bold uppercase py-2">
-                        Total
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="py-4 text-gray-700">Product 1</td>
-                      <td className="py-4 text-gray-700">1</td>
-                      <td className="py-4 text-gray-700">$100.00</td>
-                      <td className="py-4 text-gray-700">$100.00</td>
-                    </tr>
-                    <tr>
-                      <td className="py-4 text-gray-700">Product 2</td>
-                      <td className="py-4 text-gray-700">2</td>
-                      <td className="py-4 text-gray-700">$50.00</td>
-                      <td className="py-4 text-gray-700">$100.00</td>
-                    </tr>
-                    <tr>
-                      <td className="py-4 text-gray-700">Product 3</td>
-                      <td className="py-4 text-gray-700">3</td>
-                      <td className="py-4 text-gray-700">$75.00</td>
-                      <td className="py-4 text-gray-700">$225.00</td>
-                    </tr>
-                  </tbody>
-                </table>
+                {/* Items Table */}
+                {showReceipt && (
+                  <>
+                    <table className="w-full text-left mb-8">
+                      <thead>
+                        <tr>
+                          <th className="text-gray-700 font-bold uppercase py-2">
+                            Description
+                          </th>
+                          <th className="text-gray-700 font-bold uppercase py-2">
+                            Qty
+                          </th>
+                          <th className="text-gray-700 font-bold uppercase py-2">
+                            Price
+                          </th>
+                          <th className="text-gray-700 font-bold uppercase py-2">
+                            Total
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {snapshotCart.map((item, idx) => (
+                          <tr key={idx}>
+                            <td className="py-4 text-gray-700">
+                              <div className="flex items-center">
+                                {item.image && (
+                                  <div className="relative w-10 h-10 mr-2 flex-shrink-0">
+                                    <Image
+                                      src={item.image}
+                                      alt={item.name}
+                                      fill
+                                      className="object-cover rounded"
+                                    />
+                                  </div>
+                                )}
+                                <span>{item.name}</span>
+                              </div>
+                            </td>
+                            <td className="py-4 text-gray-700">
+                              {item.quantity || 1}
+                            </td>
+                            <td className="py-4 text-gray-700">
+                              ₱{Number(item.price).toFixed(2)}
+                            </td>
+                            <td className="py-4 text-gray-700">
+                              ₱{(Number(item.price) * (item.quantity || 1)).toFixed(2)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
 
-                <div className="flex justify-end mb-8">
-                  <div className="text-gray-700 mr-2">Subtotal:</div>
-                  <div className="text-gray-700">$425.00</div>
-                </div>
+                    {/* Totals */}
+                    <div className="flex justify-end mb-8">
+                      <div className="text-gray-700 mr-2">Total:</div>
+                      <div className="text-gray-700 font-bold text-xl">
+                        ₱{receiptTotal.toFixed(2)}
+                      </div>
+                    </div>
+                  </>
+                )}
 
-                <div className="text-right mb-8">
-                  <div className="text-gray-700 mr-2">Tax:</div>
-                  <div className="text-gray-700">$25.50</div>
-                </div>
-
-                <div className="flex justify-end mb-8">
-                  <div className="text-gray-700 mr-2">Total:</div>
-                  <div className="text-gray-700 font-bold text-xl">$450.50</div>
-                </div>
-
-                <div className="border-t-2 border-gray-300 pt-8 mb-8">
+                {/* Footer Notes */}
+                <div className="border-t-2 border-gray-300 pt-8 mb-0">
                   <div className="text-gray-700 mb-2">
                     Any concerns must be reported to the canteen manager.
                   </div>
                   <div className="text-gray-700 mb-2">
-                    This is only appplicable for cafeteria operations.
+                    This is only applicable for cafeteria operations.
                   </div>
                   <div className="text-gray-700">
-                    Saint Francis of Assisi College (SFAC) Las Piñas campus, #47 Admiral Village, Talon 3, Las Piñas City, 1740.
+                    Saint Francis of Assisi College (SFAC) Las Piñas campus,
+                    #47 Admiral Village, Talon 3, Las Piñas City, 1740.
                   </div>
                 </div>
               </div>
