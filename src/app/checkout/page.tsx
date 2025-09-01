@@ -22,12 +22,15 @@ export default function CheckoutPage() {
     const letters =
       String.fromCharCode(65 + Math.floor(Math.random() * 26)) +
       String.fromCharCode(65 + Math.floor(Math.random() * 26));
-    const numbers = String(Math.floor(Math.random() * 999) + 1).padStart(3, "0");
+    const numbers = String(Math.floor(Math.random() * 999) + 1).padStart(
+      3,
+      "0"
+    );
     return letters + numbers;
     // Example: AB042
   };
 
-  const handleFinishOrder = () => {
+  const handleFinishOrder = async () => {
     if (isPlacingOrder || showReceipt) return; // prevent duplicate generations
     setIsPlacingOrder(true);
 
@@ -39,7 +42,7 @@ export default function CheckoutPage() {
     const itemsSnapshot = cartItems.map((it) => ({
       ...it,
       price: Number(it.price), // ✅ ensure number
-      quantity: it.quantity || 1, // ✅ fallback quantity
+      quantity: it.quantity || 1,
     }));
     const total = itemsSnapshot.reduce(
       (sum, it) => sum + Number(it.price) * (it.quantity || 1),
@@ -53,13 +56,38 @@ export default function CheckoutPage() {
     setReceiptTotal(total);
     setShowReceipt(true);
 
-    // Save to your history as before
+    // ✅ Send order to backend
+    try {
+      const response = await fetch("http://192.168.1.50:3000/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code,
+          date: dateStr,
+          items: itemsSnapshot,
+          total,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send order to backend");
+      }
+
+      console.log("Order successfully sent to backend");
+    } catch (err) {
+      console.error("Error sending order:", err);
+    }
+
+    // Save to history as before
     addOrderToHistory({
       id: Date.now().toString(),
       code,
       items: itemsSnapshot,
       date: dateStr,
     });
+
     clearCart();
     setTimeout(() => router.push("/"), 5000);
   };
@@ -77,7 +105,8 @@ export default function CheckoutPage() {
 
               <form action="" className="mt-10 flex flex-col space-y-4">
                 <div className="p-2 rounded-md text-gray-700 pointer-events-none">
-                  A Transaction code will be generated for 5 seocnds once you place the order. You will be redirected after.
+                  A Transaction code will be generated for 5 seocnds once you
+                  place the order. You will be redirected after.
                 </div>
 
                 <div className="bg-gray-100 border border-gray-300 p-2 rounded-md text-gray-700 pointer-events-none">
@@ -183,7 +212,10 @@ export default function CheckoutPage() {
                               ₱{Number(item.price).toFixed(2)}
                             </td>
                             <td className="py-4 text-gray-700">
-                              ₱{(Number(item.price) * (item.quantity || 1)).toFixed(2)}
+                              ₱
+                              {(
+                                Number(item.price) * (item.quantity || 1)
+                              ).toFixed(2)}
                             </td>
                           </tr>
                         ))}
@@ -209,8 +241,8 @@ export default function CheckoutPage() {
                     This is only applicable for cafeteria operations.
                   </div>
                   <div className="text-gray-700">
-                    Saint Francis of Assisi College (SFAC) Las Piñas campus,
-                    #47 Admiral Village, Talon 3, Las Piñas City, 1740.
+                    Saint Francis of Assisi College (SFAC) Las Piñas campus, #47
+                    Admiral Village, Talon 3, Las Piñas City, 1740.
                   </div>
                 </div>
               </div>

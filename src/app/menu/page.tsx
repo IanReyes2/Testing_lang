@@ -15,7 +15,9 @@ type MenuItem = {
 
 export default function MenuPage() {
   const { addToCart } = useCart();
-  const [clickedButtons, setClickedButtons] = useState<{ [key: number]: boolean }>({});
+  const [clickedButtons, setClickedButtons] = useState<{
+    [key: number]: boolean;
+  }>({});
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState<string | null>(null); // ✅ added
@@ -23,9 +25,13 @@ export default function MenuPage() {
   useEffect(() => {
     async function fetchMenu() {
       try {
-        const url = category ? `/api/menu?category=${category}` : "/api/menu"; // ✅ filter by category
+         const url = category
+          ? `http://192.168.1.4:3000/api/menu?category=${category}`
+          : `http://192.168.1.4:3000/api/menu`;
+
         const res = await fetch(url);
         const data = await res.json();
+
 
         const imgRes = await fetch("/api/menu-images");
         const images = await imgRes.json();
@@ -60,7 +66,7 @@ export default function MenuPage() {
       {/* Sidebar */}
       <aside className="w-64 bg-[#670E10] text-white flex flex-col">
         <div className="p-6 text-xl font-bold border-b border-red-800">
-         The FrancisCanteen
+          The FrancisCanteen
         </div>
         <nav className="flex-1 p-4 space-y-2">
           {/* ✅ Category filters */}
@@ -97,7 +103,10 @@ export default function MenuPage() {
             Drinks
           </button>
 
-          <Link href="/history" className="block px-4 py-2 rounded hover:bg-red-800">
+          <Link
+            href="/history"
+            className="block px-4 py-2 rounded hover:bg-red-800"
+          >
             History
           </Link>
         </nav>
@@ -146,16 +155,12 @@ export default function MenuPage() {
         {/* Bottom Buttons - Centered */}
         <div className="fixed bottom-0 left-0 w-full flex justify-center pb-2 space-x-4 bg-gray-50">
           <Link href="/startup">
-            <button
-              className="fw-bold px-6 py-2 border-0 rounded bg-red-900 hover:bg-red-600 text-white"
-            >
+            <button className="fw-bold px-6 py-2 border-0 rounded bg-red-900 hover:bg-red-600 text-white">
               BACK TO HOMEPAGE
             </button>
           </Link>
           <Link href="/cart">
-            <button
-              className="fw-bold px-6 py-2 border-0 rounded bg-red-900 hover:bg-red-600 text-white"
-            >
+            <button className="fw-bold px-6 py-2 border-0 rounded bg-red-900 hover:bg-red-600 text-white">
               PROCEED TO CART
             </button>
           </Link>
