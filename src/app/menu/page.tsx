@@ -26,8 +26,8 @@ export default function MenuPage() {
     async function fetchMenu() {
       try {
          const url = category
-          ? `http://192.168.1.4:3000/api/menu?category=${category}`
-          : `http://192.168.1.4:3000/api/menu`;
+          ? `http://192.168.1.50:3000/api/menu?category=${category}`
+          : `http://192.168.1.50:3000/api/menu`;
 
         const res = await fetch(url);
         const data = await res.json();
