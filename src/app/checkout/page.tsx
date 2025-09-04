@@ -30,7 +30,7 @@ export default function CheckoutPage() {
     // Example: AB042
   };
 
-    const handleFinishOrder = async () => {
+  const handleFinishOrder = async () => {
     if (isPlacingOrder || showReceipt) return; // prevent duplicate generations
     setIsPlacingOrder(true);
 
@@ -57,30 +57,29 @@ export default function CheckoutPage() {
     setShowReceipt(true);
 
     // ✅ Send order to backend
-try {
-  const response = await fetch("http://192.168.1.50:3001/api/order", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      code,
-      date: dateStr,
-      items: itemsSnapshot,
-      total,
-    }),
-  });
+    try {
+      const response = await fetch("http://192.168.100.27:3001/api/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code,
+          date: dateStr,
+          items: itemsSnapshot,
+          total,
+        }),
+      });
 
-  if (!response.ok) {
-    throw new Error("Failed to send order to backend");
-  }
+      if (!response.ok) {
+        throw new Error("Failed to send order to backend");
+      }
 
-  const data = await response.json();
-  console.log("Order successfully sent to backend:", data);
-} catch (err) {
-  console.error("Error sending order:", err);
-}
-
+      const data = await response.json();
+      console.log("Order successfully sent to backend:", data);
+    } catch (err) {
+      console.error("Error sending order:", err);
+    }
 
     // Save to history as before
     addOrderToHistory({
@@ -91,7 +90,8 @@ try {
     });
 
     clearCart();
-    setTimeout(() => router.push("/"), 5000);
+    await new Promise((res) => setTimeout(res, 5000));
+    router.push("/startup");
   };
 
   return (
