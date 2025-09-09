@@ -58,7 +58,7 @@ export default function CheckoutPage() {
 
     // ✅ Send order to backend
     try {
-      const response = await fetch("http://192.168.1.5:3001/api/order", {
+      const response = await fetch("http://192.168.100.131:3001/api/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

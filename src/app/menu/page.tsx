@@ -25,13 +25,12 @@ export default function MenuPage() {
   useEffect(() => {
     async function fetchMenu() {
       try {
-         const url = category
-          ? `http://192.168.1.5:3000/api/menu?category=${category}`
-          : `http://192.168.1.5:3000/api/menu`;
+        const url = category
+          ? `http://192.168.100.131:3000/api/menu?category=${category}`
+          : `http://192.168.100.131:3000/api/menu`;
 
         const res = await fetch(url);
         const data = await res.json();
-
 
         const imgRes = await fetch("/api/menu-images");
         const images = await imgRes.json();
