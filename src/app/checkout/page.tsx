@@ -4,6 +4,8 @@ import { useCart } from "../CartContext";
 import { useHistoryContext } from "../HistoryContext";
 import { useState } from "react";
 import Image from "next/image";
+import { API_URL } from "../../../config";
+;
 
 export default function CheckoutPage() {
   const router = useRouter(); // kept even if you don’t use redirect
@@ -57,19 +59,19 @@ export default function CheckoutPage() {
     setShowReceipt(true);
 
     // ✅ Send order to backend
-    try {
-      const response = await fetch("http://192.168.100.131:3001/api/order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          code,
-          date: dateStr,
-          items: itemsSnapshot,
-          total,
-        }),
-      });
+  try {
+  const response = await fetch(`${API_URL}/api/order`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      code,
+      date: dateStr,
+      items: itemsSnapshot,
+      total,
+    }),
+  });
 
       if (!response.ok) {
         throw new Error("Failed to send order to backend");

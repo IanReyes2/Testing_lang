@@ -4,7 +4,7 @@ import { CartItem } from './CartContext';
 
 interface Order {
   id: string;
-  code: string; // add this
+  code: string; 
   items: CartItem[];
   date: string;
 }
@@ -19,7 +19,6 @@ const HistoryContext = createContext<HistoryContextType | undefined>(undefined);
 export const HistoryProvider = ({ children }: { children: ReactNode }) => {
   const [history, setHistory] = useState<Order[]>([]);
 
-  // Load saved history from localStorage on page load
   useEffect(() => {
     const savedHistory = localStorage.getItem("orderHistory");
     if (savedHistory) {
@@ -27,12 +26,10 @@ export const HistoryProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  // Save history to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("orderHistory", JSON.stringify(history));
   }, [history]);
 
-  // Function to add a new order to history
   const addOrderToHistory = (order: Order) => {
     setHistory((prev) => [order, ...prev]);
   };
