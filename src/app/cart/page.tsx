@@ -2,10 +2,13 @@
 import { useCart } from "../CartContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Image from "next/image"; // ✅ use next/image
+import Image from "next/image"; 
+import type { CartItem } from "../CartContext"
+ 
 
 export default function CartPage() {
   const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
+  const typedCartItems: CartItem[] = cartItems;
   const router = useRouter();
 
   const handleLogoClick = () => {

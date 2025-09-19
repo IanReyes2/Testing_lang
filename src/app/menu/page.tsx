@@ -25,9 +25,14 @@ export default function MenuPage() {
   useEffect(() => {
     async function fetchMenu() {
       try {
+        // ✅ adaptive base URL (works on localhost & LAN)
+        const hostname = window.location.hostname;
+        const port = 3000;
+        const baseUrl = `http://${hostname}:${port}`;
+
         const url = category
-          ? `http://192.168.1.7:3000/api/menu?category=${category}`
-          : `http://192.168.1.7:3000/api/menu`;
+          ? `${baseUrl}/api/menu?category=${category}`
+          : `${baseUrl}/api/menu`;
 
         const res = await fetch(url);
         const data = await res.json();
@@ -47,8 +52,9 @@ export default function MenuPage() {
         setLoading(false);
       }
     }
+
     fetchMenu();
-  }, [category]); // ✅ re-fetch when category changes
+  }, [category]);
 
   const handleAddToCart = (item: CartItem) => {
     addToCart({ ...item, quantity: 1 });
