@@ -5,14 +5,12 @@ import { useHistoryContext } from "../HistoryContext";
 import { useState } from "react";
 import Image from "next/image";
 import { API_URL } from "../../../config";
-;
 
 export default function CheckoutPage() {
-  const router = useRouter(); // kept even if you don’t use redirect
+  const router = useRouter();
   const { cartItems, clearCart } = useCart();
   const { addOrderToHistory } = useHistoryContext();
 
-  // Receipt state (generated once when placing order)
   const [orderCode, setOrderCode] = useState<string>("");
   const [orderDate, setOrderDate] = useState<string>("");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
@@ -29,21 +27,20 @@ export default function CheckoutPage() {
       "0"
     );
     return letters + numbers;
-    // Example: AB042
   };
 
   const handleFinishOrder = async () => {
-    if (isPlacingOrder || showReceipt) return; // prevent duplicate generations
+    if (isPlacingOrder || showReceipt) return;
     setIsPlacingOrder(true);
 
-    // Generate one-time metadata
+    // Generate order code and timestamp
     const code = genCode();
-    const dateStr = new Date().toLocaleString();
+    const dateStr = new Date().toISOString(); // Use ISO format for backend
 
-    // Snapshot cart so clearing won’t wipe the receipt
+    // Snapshot cart items
     const itemsSnapshot = cartItems.map((it) => ({
       ...it,
-      price: Number(it.price), // ✅ ensure number
+      price: Number(it.price),
       quantity: it.quantity || 1,
     }));
     const total = itemsSnapshot.reduce(
@@ -51,39 +48,40 @@ export default function CheckoutPage() {
       0
     );
 
-    // Persist in state for the receipt
+    // Persist to state for receipt
     setOrderCode(code);
     setOrderDate(dateStr);
     setSnapshotCart(itemsSnapshot);
     setReceiptTotal(total);
     setShowReceipt(true);
 
-    // ✅ Send order to backend
-  try {
-  const response = await fetch(`${API_URL}/api/order`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      code,
-      date: dateStr,
-      items: itemsSnapshot,
-      total,
-    }),
-  });
+    // Send order to backend
+    try {
+      const response = await fetch(`${API_URL}/api/order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderCode: code,
+          createdAt: new Date(dateStr), // or just new Date() if you prefer
+          total,
+          items: itemsSnapshot.map((it) => ({
+            name: it.name,
+            price: it.price,
+            quantity: it.quantity,
+          })),
+        }),
+      });
 
-      if (!response.ok) {
-        throw new Error("Failed to send order to backend");
-      }
-
+      if (!response.ok) throw new Error("Failed to send order to backend");
       const data = await response.json();
       console.log("Order successfully sent to backend:", data);
     } catch (err) {
       console.error("Error sending order:", err);
     }
 
-    // Save to history as before
+    // Save to history context
     addOrderToHistory({
       id: Date.now().toString(),
       code,
@@ -109,7 +107,7 @@ export default function CheckoutPage() {
 
               <form action="" className="mt-10 flex flex-col space-y-4">
                 <div className="p-2 rounded-md text-gray-700 pointer-events-none">
-                  A Transaction code will be generated for 5 seocnds once you
+                  A Transaction code will be generated for 5 seconds once you
                   place the order. You will be redirected after.
                 </div>
 
