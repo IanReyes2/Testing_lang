@@ -23,38 +23,42 @@ export default function MenuPage() {
   const [category, setCategory] = useState<string | null>(null); // ✅ added
 
   useEffect(() => {
-    async function fetchMenu() {
-      try {
-        // ✅ adaptive base URL (works on localhost & LAN)
-        const hostname = window.location.hostname;
-        const port = 3000;
-        const baseUrl = `http://${hostname}:${port}`;
+  async function fetchMenu() {
+    try {
+      const hostname = window.location.hostname;
+      const port = 3000;
+      const baseUrl = `http://${hostname}:${port}`;
 
-        const url = category
-          ? `${baseUrl}/api/menu?category=${category}`
-          : `${baseUrl}/api/menu`;
+      const url = category
+        ? `${baseUrl}/api/menu?category=${category}`
+        : `${baseUrl}/api/menu`;
 
-        const res = await fetch(url);
-        const data = await res.json();
+      const res = await fetch(url);
+      const json = await res.json();
 
-        const imgRes = await fetch("/api/menu-images");
-        const images = await imgRes.json();
+      // ✅ Make sure we always have an array
+      const data: MenuItem[] = Array.isArray(json) ? json : json.data || [];
 
-        const merged = data.map((item: MenuItem) => ({
-          ...item,
-          image: images[item.id] || "/assets/img/default.jpg",
-        }));
+      const imgRes = await fetch("/api/menu-images");
+      const images = await imgRes.json();
 
-        setMenuItems(merged);
-      } catch (err) {
-        console.error("Failed to load menu:", err);
-      } finally {
-        setLoading(false);
-      }
+      const merged = data.map((item: MenuItem) => ({
+        ...item,
+        image: images[item.id] || "/assets/img/default.jpg",
+      }));
+
+      setMenuItems(merged);
+    } catch (err) {
+      console.error("Failed to load menu:", err);
+      setMenuItems([]); // fallback to empty array
+    } finally {
+      setLoading(false);
     }
+  }
 
-    fetchMenu();
-  }, [category]);
+  fetchMenu();
+}, [category]);
+
 
   const handleAddToCart = (item: CartItem) => {
     addToCart({ ...item, quantity: 1 });

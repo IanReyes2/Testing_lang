@@ -14,34 +14,40 @@ enum OrderStatus {
   COMPLETED
 }
 
-model MenuItem {
-  id         Int         @id @default(autoincrement())
-  name       String
-  price      Decimal     @db.Decimal(10,2)
-  available  Boolean     @default(true)
-  category   String      @default("uncategorized") 
-  OrderItems OrderItem[]
+model menuitem {
+  id        Int     @id @default(autoincrement())
+  name      String
+  price     Float
+  available Boolean @default(true)
+  category  String? @default("uncategorized")
+  orderitem orderitem[]
+  menuitemavailability menuitemavailability[]
 }
 
-
-model Order {
-  id           Int          @id @default(autoincrement())
-  customerCode String       @unique
-  status       OrderStatus  @default(PENDING)
-  total        Decimal      @db.Decimal(10,2) @default(0)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  items        OrderItem[]
-}
-
-model OrderItem {
-  id         Int      @id @default(autoincrement())
-  orderId    Int
+model menuitemavailability {
+  id        Int    @id @default(autoincrement())
+  dayOfWeek String
+  menuitem  menuitem @relation(fields: [menuItemId], references: [id])
   menuItemId Int
-  qty        Int
-  unitPrice  Decimal  @db.Decimal(10,2)
-  createdAt  DateTime @default(now())
-  order      Order    @relation(fields: [orderId], references: [id])
-  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
 }
 
+model order {
+  id           Int        @id @default(autoincrement())
+  customerCode String     @unique
+  status       String     @default("PENDING")
+  total        Float      @default(0)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  orderitems   orderitem[]
+}
+
+model orderitem {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  menuItemId Int
+  qty       Int
+  unitPrice Float
+  createdAt DateTime @default(now())
+  order     order    @relation(fields: [orderId], references: [id])
+  menuitem  menuitem @relation(fields: [menuItemId], references: [id])
+}
