@@ -59,17 +59,15 @@ export default function CheckoutPage() {
     try {
       const response = await fetch(`${API_URL}/api/order`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           orderCode: code,
-          createdAt: new Date(dateStr), // or just new Date() if you prefer
+          createdAt: new Date().toISOString(),
           total,
-          items: itemsSnapshot.map((it) => ({
-            name: it.name,
-            price: it.price,
-            quantity: it.quantity,
+          items: cartItems.map((item: (typeof cartItems)[number]) => ({
+            menuItemId: item.id,
+            qty: item.quantity || 1,
+            unitPrice: item.price,
           })),
         }),
       });
