@@ -10,6 +10,7 @@ export interface OrderItem {
 export interface Order {
   id: string
   customerName: string
+  orderCode?: string
   items: OrderItem[]
   total: number
   status: "pending" | "preparing" | "completed" | "cancelled"

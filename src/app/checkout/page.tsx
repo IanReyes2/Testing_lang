@@ -29,13 +29,14 @@ export default function CheckoutPage() {
     return letters + numbers;
   };
 
-  const handleFinishOrder = async () => {
-    if (isPlacingOrder || showReceipt) return;
-    setIsPlacingOrder(true);
+ const handleFinishOrder = async () => {
+  if (isPlacingOrder || showReceipt) return;
+  setIsPlacingOrder(true);
 
+  try {
     // Generate order code and timestamp
     const code = genCode();
-    const dateStr = new Date().toISOString(); // Use ISO format for backend
+    const dateStr = new Date().toISOString();
 
     // Snapshot cart items
     const itemsSnapshot = cartItems.map((it) => ({
@@ -48,6 +49,8 @@ export default function CheckoutPage() {
       0
     );
 
+    if (itemsSnapshot.length === 0) throw new Error("Cart is empty");
+
     // Persist to state for receipt
     setOrderCode(code);
     setOrderDate(dateStr);
@@ -55,29 +58,48 @@ export default function CheckoutPage() {
     setReceiptTotal(total);
     setShowReceipt(true);
 
-    // Send order to backend
-    try {
-      const response = await fetch(`${API_URL}/api/order`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderCode: code,
-          createdAt: new Date().toISOString(),
-          total,
-          items: cartItems.map((item: (typeof cartItems)[number]) => ({
-            menuItemId: item.id,
-            qty: item.quantity || 1,
-            unitPrice: item.price,
-          })),
-        }),
-      });
+    // Prepare payload for backend
+    const payload = {
+      customerName: "Kiosk",
+      customer: "kiosk",
+      orderCode: code,
+      total,
+      orderType: "kiosk",
+      tableNumber: null,
+      items: itemsSnapshot.map((item) => ({
+        name: item.name,
+        unitPrice: item.price,
+        qty: item.quantity,
+      })),
+    };
 
-      if (!response.ok) throw new Error("Failed to send order to backend");
-      const data = await response.json();
-      console.log("Order successfully sent to backend:", data);
-    } catch (err) {
-      console.error("Error sending order:", err);
+    // Validate payload items
+    for (const it of payload.items) {
+      if (
+        typeof it.name !== "string" ||
+        typeof it.unitPrice !== "number" ||
+        typeof it.qty !== "number"
+      ) {
+        throw new Error(
+          "Each item must have name (string), unitPrice (number), qty (number)"
+        );
+      }
     }
+
+    // Send order to backend
+    const response = await fetch(`${API_URL}/api/order`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const resText = await response.text();
+      throw new Error(`Failed to send order to backend: ${resText}`);
+    }
+
+    const data = await response.json();
+    console.log("Order successfully sent to backend:", data);
 
     // Save to history context
     addOrderToHistory({
@@ -90,7 +112,17 @@ export default function CheckoutPage() {
     clearCart();
     await new Promise((res) => setTimeout(res, 5000));
     router.push("/startup");
-  };
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      alert(`Failed to place order: ${err.message}`);
+    } else {
+      alert(`Failed to place order: ${String(err)}`);
+    }
+    setIsPlacingOrder(false);
+  }
+};
+
+
 
   return (
     <section>
