@@ -179,7 +179,7 @@ export default function CheckoutPage() {
                       alt="Logo"
                     />
                     <div className="text-gray-700 font-semibold text-lg">
-                      The FrancisCanteen
+                      THE FRANCISCanteen
                     </div>
                   </div>
                 </div>

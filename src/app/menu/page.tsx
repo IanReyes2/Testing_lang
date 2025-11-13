@@ -10,55 +10,55 @@ type MenuItem = {
   name: string;
   price: number;
   image?: string;
-  category?: string; // ✅ added
+  category?: string; // 
 };
 
 export default function MenuPage() {
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
   const [clickedButtons, setClickedButtons] = useState<{
     [key: number]: boolean;
   }>({});
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState<string | null>(null); // ✅ added
+  const [category, setCategory] = useState<string | null>(null); 
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-  async function fetchMenu() {
-    try {
-      const hostname = window.location.hostname;
-      const port = 3000;
-      const baseUrl = `http://${hostname}:${port}`;
+    async function fetchMenu() {
+      try {
+        const hostname = window.location.hostname;
+        const port = 3000;
+        const baseUrl = `http://${hostname}:${port}`;
 
-      const url = category
-        ? `${baseUrl}/api/menu?category=${category}`
-        : `${baseUrl}/api/menu`;
+        const url = category
+          ? `${baseUrl}/api/menu?category=${category}`
+          : `${baseUrl}/api/menu`;
 
-      const res = await fetch(url);
-      const json = await res.json();
+        const res = await fetch(url);
+        const json = await res.json();
 
-      // ✅ Make sure we always have an array
-      const data: MenuItem[] = Array.isArray(json) ? json : json.data || [];
+        // ✅ Make sure we always have an array
+        const data: MenuItem[] = Array.isArray(json) ? json : json.data || [];
 
-      const imgRes = await fetch("/api/menu-images");
-      const images = await imgRes.json();
+        const imgRes = await fetch("/api/menu-images");
+        const images = await imgRes.json();
 
-      const merged = data.map((item: MenuItem) => ({
-        ...item,
-        image: images[item.id] || "/assets/img/default.jpg",
-      }));
+        const merged = data.map((item: MenuItem) => ({
+          ...item,
+          image: images[item.id] || "/assets/img/default.jpg",
+        }));
 
-      setMenuItems(merged);
-    } catch (err) {
-      console.error("Failed to load menu:", err);
-      setMenuItems([]); // fallback to empty array
-    } finally {
-      setLoading(false);
+        setMenuItems(merged);
+      } catch (err) {
+        console.error("Failed to load menu:", err);
+        setMenuItems([]); // fallback to empty array
+      } finally {
+        setLoading(false);
+      }
     }
-  }
 
-  fetchMenu();
-}, [category]);
-
+    fetchMenu();
+  }, [category]);
 
   const handleAddToCart = (item: CartItem) => {
     addToCart({ ...item, quantity: 1 });
@@ -75,7 +75,7 @@ export default function MenuPage() {
       {/* Sidebar */}
       <aside className="w-64 bg-[#670E10] text-white flex flex-col">
         <div className="p-6 text-xl font-bold border-b border-red-800">
-          The FrancisCanteen
+          THE FRANCISCanteen
         </div>
         <nav className="flex-1 p-4 space-y-2">
           {/* ✅ Category filters */}
@@ -163,17 +163,33 @@ export default function MenuPage() {
 
         {/* Bottom Buttons - Centered */}
         <div className="fixed bottom-0 left-0 w-full flex justify-center pb-2 space-x-4 bg-gray-50">
-          <Link href="/startup">
-            <button className="fw-bold px-6 py-2 border-0 rounded bg-red-900 hover:bg-red-600 text-white">
-              BACK TO HOMEPAGE
-            </button>
-          </Link>
-          <Link href="/cart">
-            <button className="fw-bold px-6 py-2 border-0 rounded bg-red-900 hover:bg-red-600 text-white">
-              PROCEED TO CART
-            </button>
-          </Link>
+  <Link href="/startup">
+    <button className="fw-bold px-6 py-2 border-0 rounded bg-red-900 hover:bg-red-600 text-white">
+      BACK TO HOMEPAGE
+    </button>
+  </Link>
+
+  {/* Patched Proceed to Cart button */}
+  <Link href="/cart">
+    <button
+      type="button"
+      disabled={cartItems.length === 0} // ✅ disable if cart is empty
+      className={`relative inline-flex items-center text-sm font-medium text-center fw-bold px-6 py-2 border-0 rounded ${
+        cartItems.length === 0
+          ? "bg-gray-400 cursor-not-allowed"
+          : "bg-red-900 hover:bg-red-600"
+      } text-white`}
+    >
+      <span className="sr-only">Notifications</span>
+      CHECK / PROCEED TO CART
+      {cartItems.length > 0 && (
+        <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+          {cartItems.length}
         </div>
+      )}
+    </button>
+  </Link>
+</div>
       </main>
     </div>
   );

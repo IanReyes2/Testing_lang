@@ -97,7 +97,8 @@ export default function StartupPage() {
       >
         <div className="container">
           <p className="text-center m-0">
-            Saint Francis of Assisi College. All rights reserved.
+            Copyright © {new Date().getFullYear()} - All rights reserved by Saint
+            Francis of Assisi College Las Piñas Campus.
           </p>
         </div>
       </footer>
