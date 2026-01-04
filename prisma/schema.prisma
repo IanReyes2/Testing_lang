@@ -14,20 +14,20 @@ enum OrderStatus {
   COMPLETED
 }
 
-model menuitem {
+model Menuitem {
   id        Int     @id @default(autoincrement())
   name      String
   price     Float
   available Boolean @default(true)
   category  String? @default("uncategorized")
   orderitem orderitem[]
-  menuitemavailability menuitemavailability[]
+  menuitemavailability Menuitemavailability[]
 }
 
-model menuitemavailability {
+model Menuitemavailability {
   id        Int    @id @default(autoincrement())
   dayOfWeek String
-  menuitem  menuitem @relation(fields: [menuItemId], references: [id])
+  menuitem  Menuitem @relation(fields: [menuItemId], references: [id])
   menuItemId Int
 }
 
@@ -49,5 +49,5 @@ model orderitem {
   unitPrice Float
   createdAt DateTime @default(now())
   order     order    @relation(fields: [orderId], references: [id])
-  menuitem  menuitem @relation(fields: [menuItemId], references: [id])
+  menuitem  Menuitem @relation(fields: [menuItemId], references: [id])
 }
