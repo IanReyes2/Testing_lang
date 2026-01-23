@@ -1,53 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
-enum OrderStatus {
-  PENDING
-  PAID
-  CANCELLED
-  COMPLETED
-}
-
-model Menuitem {
-  id        Int     @id @default(autoincrement())
-  name      String
-  price     Float
-  available Boolean @default(true)
-  category  String? @default("uncategorized")
-  orderitem orderitem[]
-  menuitemavailability Menuitemavailability[]
-}
-
-model Menuitemavailability {
-  id        Int    @id @default(autoincrement())
-  dayOfWeek String
-  menuitem  Menuitem @relation(fields: [menuItemId], references: [id])
-  menuItemId Int
-}
-
 model order {
-  id           Int        @id @default(autoincrement())
-  customerCode String     @unique
-  status       String     @default("PENDING")
-  total        Float      @default(0)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id           Int         @id @default(autoincrement())
+  customerCode String      @unique
+  status       String      @default("PENDING")
+  total        Float       @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
   orderitems   orderitem[]
 }
 
 model orderitem {
-  id        Int      @id @default(autoincrement())
-  orderId   Int
+  id         Int      @id @default(autoincrement())
+  orderId    Int
   menuItemId Int
-  qty       Int
-  unitPrice Float
-  createdAt DateTime @default(now())
-  order     order    @relation(fields: [orderId], references: [id])
-  menuitem  Menuitem @relation(fields: [menuItemId], references: [id])
+  qty        Int
+  unitPrice  Float
+  createdAt  DateTime @default(now())
+  menuitem   menuitem @relation(fields: [menuItemId], references: [id])
+  order      order    @relation(fields: [orderId], references: [id])
+
+  @@index([menuItemId], map: "orderitem_menuItemId_fkey")
+  @@index([orderId], map: "orderitem_orderId_fkey")
+}
+
+model menuitem {
+  id                   Int                    @id @default(autoincrement())
+  name                 String
+  price                Float
+  available            Boolean                @default(true)
+  category             String?                @default("uncategorized")
+  menuitemavailability menuitemavailability[]
+  orderitem            orderitem[]
+}
+
+model menuitemavailability {
+  id         Int    @id @default(autoincrement())
+  dayOfWeek  String
+  menuItemId Int
+  menuitem   enuitem @relation(fields: [menuItemId], references: [id])
+
+  @@unique([menuItemId, dayOfWeek])
 }
