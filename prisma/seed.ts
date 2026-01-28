@@ -6,11 +6,11 @@ async function main() {
   // Add some menu items
   await prisma.menuitem.createMany({
     data: [
-      { name: "Fried Chicken", price: "50.00" },
-      { name: "Chicken Adobo", price: "50.00" },
-      { name: "Spaghetti", price: "35.00" },
-      { name: "Rice", price: "15.00" },
-      { name: "Iced Tea", price: "20.00" },
+      { name: "Fried Chicken", price: 50.0 },
+      { name: "Chicken Adobo", price: 50.0 },
+      { name: "Spaghetti", price: 35.0 },
+      { name: "Rice", price: 15.0 },
+      { name: "Iced Tea", price: 20.0 },
     ],
     skipDuplicates: true, // avoids re-inserting if seed is run again
   });

@@ -110,7 +110,7 @@ export default function CheckoutPage() {
     });
 
     clearCart();
-    await new Promise((res) => setTimeout(res, 5000));
+    await new Promise((res) => setTimeout(res, 10000));
     router.push("/startup");
   } catch (err: unknown) {
     if (err instanceof Error) {
@@ -121,7 +121,6 @@ export default function CheckoutPage() {
     setIsPlacingOrder(false);
   }
 };
-
 
 
   return (

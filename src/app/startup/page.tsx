@@ -23,7 +23,7 @@ export default function StartupPage() {
             <ul className="flex gap-4 list-none m-0">
               <li>
                 <Link href="/history" className="hover:underline">
-                  History
+                 Order History
                 </Link>
               </li>
             </ul>

@@ -45,7 +45,8 @@ model menuitemavailability {
   id         Int    @id @default(autoincrement())
   dayOfWeek  String
   menuItemId Int
-  menuitem   enuitem @relation(fields: [menuItemId], references: [id])
+  menuitem   menuitem @relation(fields: [menuItemId], references: [id])
 
   @@unique([menuItemId, dayOfWeek])
 }
+

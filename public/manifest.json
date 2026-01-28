@@ -1,0 +1,9 @@
+{
+  "name": "FrancisCanteen Kiosk",
+  "short_name": "Kiosk",
+  "start_url": "/startup",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#670E10",
+  "theme_color": "#670E10"
+}
